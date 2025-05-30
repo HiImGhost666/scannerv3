@@ -451,27 +451,13 @@ miproyectored/
 - Interfaz web alternativa (en desarrollo)
 - Soporte para escaneo remoto y distribuido
 
-## 📞 Soporte
-
-Para obtener ayuda o reportar problemas:
-
-- Abrir un issue en el repositorio de GitHub
-- Contactar al equipo de desarrollo en soporte@miproyectored.com
-- Consultar la documentación detallada en docs.miproyectored.com
-
 ## 📄 Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
 
-## 🙏 Agradecimientos
-
-- Equipo de desarrollo de Nmap por su excelente herramienta
-- Comunidad de Python por las bibliotecas utilizadas
-- Todos los colaboradores y beta testers que han ayudado a mejorar esta herramienta
-
 ---
 
 <div align="center">
-  <p>Desarrollado con ❤️ por el equipo de MiProyectoRed</p>
+  <p>Desarrollado por los alumnos en prácticas</p>
   <p style="color: #091F2C;">© 2025 MiProyectoRed - Todos los derechos reservados</p>
 </div>
