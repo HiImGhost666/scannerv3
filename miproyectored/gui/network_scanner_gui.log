@@ -863,3 +863,8 @@ AttributeError: '_tkinter.tkapp' object has no attribute 'colors'
 2025-06-02 15:34:22,842 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
 2025-06-02 15:36:26,424 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
 2025-06-02 15:36:26,754 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:52:51,831 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:52:52,075 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:53:02,145 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 15:58:20,799 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:58:20,994 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
