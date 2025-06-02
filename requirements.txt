@@ -29,3 +29,8 @@ weasyprint>=54.0
 # Utilidades
 typing
 logging
+
+Markdown~=3.8
+pillow~=10.4.0
+scapy~=2.6.1
+PyQt5~=5.15.11

@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-Módulo de interfaz gráfica para la herramienta de escaneo de red (adaptado para miproyectored)
+MÃ³dulo de interfaz grÃ¡fica para la herramienta de escaneo de red (adaptado para miproyectored)
 
-Este módulo implementa la interfaz gráfica de usuario utilizando ttkbootstrap
+Este mÃ³dulo implementa la interfaz grÃ¡fica de usuario utilizando ttkbootstrap
 para mostrar y controlar el escaneo de red.
 """
 
@@ -19,10 +19,13 @@ import sys
 import logging
 import socket
 import sqlite3
+import webbrowser
+import tempfile
+from datetime import datetime
 from typing import Dict, List, Optional, Tuple, Any
-from PIL import Image, ImageTk  # Añadido para manejar imágenes
+from PIL import Image, ImageTk  # AÃ±adido para manejar imÃ¡genes
 
-# Importar módulos del proyecto miproyectored
+# Importar mÃ³dulos del proyecto miproyectored
 from miproyectored.scanner.nmap_scanner import NmapScanner
 from miproyectored.scanner.wmi_scanner import WmiScanner
 from miproyectored.scanner.ssh_scanner import SshScanner
@@ -32,9 +35,9 @@ from miproyectored.risk.risk_analyzer import RiskAnalyzer
 from miproyectored.inventory.inventory_manager import InventoryManager
 from miproyectored.export import csv_exporter, json_exporter, html_exporter
 from miproyectored.auth.network_credentials import NetworkCredentials
-# Importar nuevos módulos para escaneo detallado
+# Importar nuevos mÃ³dulos para escaneo detallado
 
-# Configuración del sistema de logging
+# ConfiguraciÃ³n del sistema de logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -55,12 +58,12 @@ if not logger.handlers:
 
 class NetworkScannerGUI(ttk.Window):
     """
-    Clase principal para la interfaz gráfica de la herramienta de escaneo de red.
+    Clase principal para la interfaz grÃ¡fica de la herramienta de escaneo de red.
     """
     def __init__(self):
-        """Inicializa la interfaz gráfica."""
+        """Inicializa la interfaz grÃ¡fica."""
         try:
-            # Definición de colores corporativos
+            # DefiniciÃ³n de colores corporativos
             self.COLORES = {
                 'azul_oscuro': "#091F2C",    # Pantone 5395 C (color primario)
                 'rojo': "#C10016",           # Pantone 3517 C (color primario)
@@ -77,13 +80,13 @@ class NetworkScannerGUI(ttk.Window):
             self._apply_corporate_colors()
             
             self.title("Herramienta de Escaneo de Red - MiProyectoRed")
-            self.geometry("1300x750") # Aumentado el tamaño para más detalles
+            self.geometry("1300x750") # Aumentado el tamaÃ±o para mÃ¡s detalles
             self.minsize(1000, 600)
 
             self.nmap_scanner = NmapScanner() # Usar NmapScanner del proyecto
             self.risk_analyzer = RiskAnalyzer() # Usar RiskAnalyzer del proyecto
 
-            # Inicializar escáneres específicos
+            # Inicializar escÃ¡neres especÃ­ficos
             self.wmi_scanner = WmiScanner()
             self.ssh_scanner = SshScanner()
             self.snmp_scanner = SnmpScanner()
@@ -111,12 +114,12 @@ class NetworkScannerGUI(ttk.Window):
             self.snmp_community = ttk.StringVar(value="public") # Valor por defecto para SNMP
             self.wmi_username = ttk.StringVar()
             self.wmi_password = ttk.StringVar()
-            self.wmi_domain = ttk.StringVar() # Añadido para WMI
+            self.wmi_domain = ttk.StringVar() # AÃ±adido para WMI
 
             # Variable para habilitar/deshabilitar escaneo WMI
             self.wmi_scan_enabled = ttk.BooleanVar(value=False)
 
-            # Variable para habilitar/deshabilitar escaneo automático
+            # Variable para habilitar/deshabilitar escaneo automÃ¡tico
             self.auto_scan_enabled = ttk.BooleanVar(value=True)
 
             self.network_range = ttk.StringVar(value=self._get_local_network_range())
@@ -130,94 +133,96 @@ class NetworkScannerGUI(ttk.Window):
 
             self.protocol("WM_DELETE_WINDOW", self._on_closing)
 
-            logger.info("Interfaz gráfica inicializada correctamente")
+            logger.info("Interfaz grÃ¡fica inicializada correctamente")
         except Exception as e:
-            logger.error(f"Error al inicializar la interfaz gráfica: {e}", exc_info=True)
-            messagebox.showerror("Error de Inicialización", f"Error al inicializar la aplicación: {e}")
+            logger.error(f"Error al inicializar la interfaz grÃ¡fica: {e}", exc_info=True)
+            messagebox.showerror("Error de InicializaciÃ³n", f"Error al inicializar la aplicaciÃ³n: {e}")
             self.destroy()
 
     def _apply_corporate_colors(self):
         """Aplica los colores corporativos al tema actual"""
         style = ttk.Style()
-        
-        # Colores para botones
-        style.configure('TButton', 
+
+        # Configurar colores base
+        style.configure("TButton",
                         background=self.COLORES['azul_oscuro'],
                         foreground=self.COLORES['blanco'])
-        
-        # Colores para etiquetas
-        style.configure('TLabel', 
+
+        style.configure("TLabel",
                         foreground=self.COLORES['azul_oscuro'])
-        
-        # Colores para marcos
-        style.configure('TFrame', 
+
+        style.configure("TFrame",
                         background=self.COLORES['blanco'])
-        
-        # Colores para marcos con etiqueta
-        style.configure('TLabelframe', 
+
+        style.configure("TLabelframe",
                         background=self.COLORES['blanco'],
                         foreground=self.COLORES['azul_oscuro'])
-        style.configure('TLabelframe.Label', 
+
+        style.configure("TLabelframe.Label",
                         foreground=self.COLORES['azul_oscuro'],
-                        font=('', 10, 'bold'))
-        
-        # Colores para tabla de resultados
-        style.configure('Treeview', 
+                        font=('TkDefaultFont', 10, 'bold'))
+
+        # Configurar Treeview
+        style.configure("Treeview",
                         background=self.COLORES['blanco'],
                         foreground=self.COLORES['azul_oscuro'],
                         fieldbackground=self.COLORES['blanco'])
-        style.configure('Treeview.Heading', 
+
+        style.configure("Treeview.Heading",
                         background=self.COLORES['azul_oscuro'],
                         foreground=self.COLORES['blanco'],
-                        font=('', 10, 'bold'))
-        
-        # Configuración para la selección en la tabla
-        style.map('Treeview', 
+                        font=('TkDefaultFont', 10, 'bold'))
+
+        style.map("Treeview",
                   background=[('selected', self.COLORES['azul_medio'])],
                   foreground=[('selected', self.COLORES['blanco'])])
-        
-        # Configuración para pestañas
-        style.configure('TNotebook', 
+
+        # Configurar Notebook
+        style.configure("TNotebook",
                         background=self.COLORES['blanco'])
-        style.configure('TNotebook.Tab', 
+
+        style.configure("TNotebook.Tab",
                         background=self.COLORES['azul_claro'],
                         foreground=self.COLORES['azul_oscuro'],
                         padding=[10, 2])
-        style.map('TNotebook.Tab',
+
+        style.map("TNotebook.Tab",
                   background=[('selected', self.COLORES['azul_medio'])],
                   foreground=[('selected', self.COLORES['blanco'])])
-        
-        # Configuración para entradas de texto
-        style.configure('TEntry', 
+
+        # Configurar Entry
+        style.configure("TEntry",
                         foreground=self.COLORES['azul_oscuro'])
-        
-        # Estilos específicos
-        style.configure('Section.TLabel', 
-                        font=('', 11, 'bold'),
+
+        # Estilos especÃ­ficos
+        style.configure("Section.TLabel",
+                        font=('TkDefaultFont', 11, 'bold'),
                         foreground=self.COLORES['azul_oscuro'])
-        
-        style.configure('Primary.TButton', 
+
+        # Botones especiales
+        style.configure("Primary.TButton",
                         background=self.COLORES['azul_oscuro'],
                         foreground=self.COLORES['blanco'])
-        
-        style.configure('Action.TButton', 
+
+        style.configure("Action.TButton",
                         background=self.COLORES['rojo'],
                         foreground=self.COLORES['blanco'])
-        
-        # Configurar colores para los botones bootstyle
-        style.configure('success.TButton', 
+
+        # Botones de estado
+        style.configure("success.TButton",
                         background=self.COLORES['rojo'],
                         foreground=self.COLORES['blanco'])
-        
-        style.configure('info.TButton', 
+
+        style.configure("info.TButton",
                         background=self.COLORES['azul_medio'],
                         foreground=self.COLORES['blanco'])
-        
-        # Configurar colores para checkbutton
-        style.configure('round-toggle.Toolbutton', 
+
+        # Checkbutton
+        style.configure("round-toggle.Toolbutton",
                         background=self.COLORES['azul_claro'],
                         foreground=self.COLORES['azul_oscuro'])
-        style.map('round-toggle.Toolbutton',
+
+        style.map("round-toggle.Toolbutton",
                   background=[('selected', self.COLORES['azul_medio'])],
                   foreground=[('selected', self.COLORES['blanco'])])
 
@@ -227,8 +232,8 @@ class NetworkScannerGUI(ttk.Window):
             hostname = socket.gethostname()
             local_ip = socket.gethostbyname(hostname)
 
-            if local_ip.startswith("127."): # IP de Loopback, no útil para escanear la LAN
-                # Intenta obtener una IP no loopback conectándose a un host externo (dummy)
+            if local_ip.startswith("127."): # IP de Loopback, no Ãºtil para escanear la LAN
+                # Intenta obtener una IP no loopback conectÃ¡ndose a un host externo (dummy)
                 # Esto ayuda a identificar la interfaz de red principal usada para salir.
                 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 s.settimeout(0.1) # Timeout corto para no bloquear mucho
@@ -236,18 +241,18 @@ class NetworkScannerGUI(ttk.Window):
                     s.connect(('10.254.254.254', 1)) # IP dummy, no necesita ser alcanzable
                     local_ip = s.getsockname()[0]
                 except Exception:
-                    logger.warning("No se pudo determinar la IP no-loopback mediante conexión dummy. Usando IP de hostname si es válida.")
-                    # Re-evaluar la IP del hostname, podría ser una IP de LAN si hay múltiples interfaces
+                    logger.warning("No se pudo determinar la IP no-loopback mediante conexiÃ³n dummy. Usando IP de hostname si es vÃ¡lida.")
+                    # Re-evaluar la IP del hostname, podrÃ­a ser una IP de LAN si hay mÃºltiples interfaces
                     local_ip = socket.gethostbyname(hostname) # Obtener de nuevo por si acaso
                     if local_ip.startswith("127."): # Si sigue siendo loopback
                         logger.warning("La IP del hostname sigue siendo loopback. Usando rango por defecto.")
-                        return "192.168.1.0/24" # Fallback a un rango común
+                        return "192.168.1.0/24" # Fallback a un rango comÃºn
                 finally:
                     s.close()
 
             if local_ip and not local_ip.startswith("127."):
                 ip_parts = local_ip.split('.')
-                if len(ip_parts) == 4: # Asegurarse de que es una IPv4 válida
+                if len(ip_parts) == 4: # Asegurarse de que es una IPv4 vÃ¡lida
                     network_base = ".".join(ip_parts[:3])
                     detected_range = f"{network_base}.0/24"
                     logger.info(f"Rango de red local detectado: {detected_range}")
@@ -258,44 +263,44 @@ class NetworkScannerGUI(ttk.Window):
                 logger.warning(f"No se pudo determinar una IP local adecuada (IP actual: {local_ip}). Usando rango por defecto.")
 
         except socket.gaierror:
-            logger.error("Error al obtener hostname o IP (gaierror). La red podría estar desconectada o mal configurada. Usando rango por defecto.", exc_info=False)
+            logger.error("Error al obtener hostname o IP (gaierror). La red podrÃ­a estar desconectada o mal configurada. Usando rango por defecto.", exc_info=False)
         except Exception as e:
             logger.error(f"Error inesperado al detectar la red local: {e}. Usando rango por defecto.", exc_info=True)
 
         return "192.168.1.0/24" # Rango por defecto como fallback
 
     def _create_widgets(self):
-        """Crea los widgets de la interfaz gráfica."""
-        # Crear la barra de menú principal
+        """Crea los widgets de la interfaz grÃ¡fica."""
+        # Crear la barra de menÃº principal
         self._create_menu_bar()
 
         main_pane = ttk.PanedWindow(self, orient=HORIZONTAL)
         main_pane.pack(fill=BOTH, expand=True, padx=10, pady=10)
 
-        # Panel Izquierdo: Controles y Configuración
+        # Panel Izquierdo: Controles y ConfiguraciÃ³n
         left_frame_container = ttk.Frame(main_pane, padding=10)
         left_frame_container.configure(borderwidth=1, relief="solid")
         main_pane.add(left_frame_container, weight=1)
 
-        # Añadir logo encima de la sección de escaneo - TAMAÑO FIJO
+        # AÃ±adir logo encima de la secciÃ³n de escaneo - TAMAÃ‘O FIJO
         logo_frame = ttk.Frame(left_frame_container)
         logo_frame.pack(fill=X, pady=(0, 5))
 
         # Ruta al archivo de logo PNG
         logo_path = os.path.join(os.path.dirname(__file__), 'resources', 'SG - Logo Laberit principal.png')
 
-        # Cargar y mostrar el logo con tamaño fijo
+        # Cargar y mostrar el logo con tamaÃ±o fijo
         if os.path.exists(logo_path):
             try:
                 # Cargar la imagen original
                 original_img = Image.open(logo_path)
 
-                # AQUÍ PUEDES CAMBIAR EL TAMAÑO FIJO DE LA IMAGEN
-                # Modifica estos valores para ajustar el tamaño
-                fixed_width = 225  # Ancho fijo en píxeles
-                fixed_height = 45  # Altura fija en píxeles
+                # AQUÃ PUEDES CAMBIAR EL TAMAÃ‘O FIJO DE LA IMAGEN
+                # Modifica estos valores para ajustar el tamaÃ±o
+                fixed_width = 225  # Ancho fijo en pÃ­xeles
+                fixed_height = 45  # Altura fija en pÃ­xeles
 
-                # Redimensionar la imagen a un tamaño fijo
+                # Redimensionar la imagen a un tamaÃ±o fijo
                 resized_img = original_img.resize((fixed_width, fixed_height), Image.LANCZOS)
 
                 # Convertir a formato que tkinter puede mostrar
@@ -307,23 +312,23 @@ class NetworkScannerGUI(ttk.Window):
             except Exception as e:
                 logger.error(f"Error al cargar el logo: {e}")
 
-        # Sección de Escaneo
-        scan_frame = ttk.Labelframe(left_frame_container, text="Configuración de Escaneo", padding=10)
+        # SecciÃ³n de Escaneo
+        scan_frame = ttk.Labelframe(left_frame_container, text="ConfiguraciÃ³n de Escaneo", padding=10)
         scan_frame.pack(fill=X, pady=5)
 
         ttk.Label(scan_frame, text="Rango de Red (ej: 192.168.1.0/24):", style="Section.TLabel").pack(fill=X, pady=(0,2))
         ttk.Entry(scan_frame, textvariable=self.network_range).pack(fill=X, pady=(0,5))
 
-        # Opción para escaneo automático
+        # OpciÃ³n para escaneo automÃ¡tico
         auto_scan_check = ttk.Checkbutton(
             scan_frame,
-            text="Escaneo automático detallado (SSH, SNMP)",
+            text="Escaneo automÃ¡tico detallado (SSH, SNMP)",
             variable=self.auto_scan_enabled,
             bootstyle="round-toggle"
         )
         auto_scan_check.pack(fill=X, pady=2)
 
-        # Opción para escaneo WMI
+        # OpciÃ³n para escaneo WMI
         wmi_scan_check = ttk.Checkbutton(
             scan_frame,
             text="Incluir escaneo WMI (Windows)",
@@ -340,7 +345,7 @@ class NetworkScannerGUI(ttk.Window):
 
         ttk.Label(scan_frame, textvariable=self.scan_status).pack(fill=X, pady=2)
 
-        # Sección de Credenciales para escaneo detallado
+        # SecciÃ³n de Credenciales para escaneo detallado
         creds_frame = ttk.Labelframe(left_frame_container, text="Credenciales para Escaneo Detallado", padding=10)
         creds_frame.pack(fill=X, pady=10)
 
@@ -351,7 +356,7 @@ class NetworkScannerGUI(ttk.Window):
         ssh_form.pack(fill=X, padx=10)
         ttk.Label(ssh_form, text="Usuario:").grid(row=0, column=0, sticky=W, padx=2, pady=2)
         ttk.Entry(ssh_form, textvariable=self.ssh_username, width=15).grid(row=0, column=1, sticky=EW, padx=2, pady=2)
-        ttk.Label(ssh_form, text="Contraseña:").grid(row=1, column=0, sticky=W, padx=2, pady=2)
+        ttk.Label(ssh_form, text="ContraseÃ±a:").grid(row=1, column=0, sticky=W, padx=2, pady=2)
         ttk.Entry(ssh_form, textvariable=self.ssh_password, show="*", width=15).grid(row=1, column=1, sticky=EW, padx=2, pady=2)
         ttk.Label(ssh_form, text="Ruta Clave:").grid(row=2, column=0, sticky=W, padx=2, pady=2)
         key_frame = ttk.Frame(ssh_form)
@@ -366,7 +371,7 @@ class NetworkScannerGUI(ttk.Window):
         wmi_form.pack(fill=X, padx=10)
         ttk.Label(wmi_form, text="Usuario:").grid(row=0, column=0, sticky=W, padx=2, pady=2)
         ttk.Entry(wmi_form, textvariable=self.wmi_username, width=15).grid(row=0, column=1, sticky=EW, padx=2, pady=2)
-        ttk.Label(wmi_form, text="Contraseña:").grid(row=1, column=0, sticky=W, padx=2, pady=2)
+        ttk.Label(wmi_form, text="ContraseÃ±a:").grid(row=1, column=0, sticky=W, padx=2, pady=2)
         ttk.Entry(wmi_form, textvariable=self.wmi_password, show="*", width=15).grid(row=1, column=1, sticky=EW, padx=2, pady=2)
         ttk.Label(wmi_form, text="Dominio:").grid(row=2, column=0, sticky=W, padx=2, pady=2)
         ttk.Entry(wmi_form, textvariable=self.wmi_domain, width=15).grid(row=2, column=1, sticky=EW, padx=2, pady=2)
@@ -383,7 +388,7 @@ class NetworkScannerGUI(ttk.Window):
         wmi_form.columnconfigure(1, weight=1)
         snmp_form.columnconfigure(1, weight=1)
 
-        # Sección de Exportación
+        # SecciÃ³n de ExportaciÃ³n
         export_frame = ttk.Labelframe(left_frame_container, text="Exportar Resultados", padding=10)
         export_frame.pack(fill=X, pady=10)
         self.export_button = ttk.Button(export_frame, text="Exportar Datos", command=self._export_data, state=DISABLED, style="Primary.TButton")
@@ -397,23 +402,23 @@ class NetworkScannerGUI(ttk.Window):
         results_pane = ttk.PanedWindow(right_frame_container, orient=VERTICAL)
         results_pane.pack(fill=BOTH, expand=True)
 
-        # Frame para la tabla de resultados y búsqueda
+        # Frame para la tabla de resultados y bÃºsqueda
         results_table_frame = ttk.Frame(results_pane, padding=(10,10,10,0)) # Padding solo arriba y a los lados
         results_pane.add(results_table_frame, weight=2)
 
-        # Frame de búsqueda con estilo moderno
+        # Frame de bÃºsqueda con estilo moderno
         search_frame = ttk.Frame(results_table_frame)
         search_frame.pack(fill=X, pady=(0,5))
         ttk.Label(search_frame, text="Buscar:", font=('', 10)).pack(side=LEFT, padx=(0,5))
         search_entry = ttk.Entry(search_frame, textvariable=self.search_filter, font=('', 10))
         search_entry.pack(side=LEFT, fill=X, expand=True)
 
-        # Configuración de la tabla de resultados
+        # ConfiguraciÃ³n de la tabla de resultados
         style = ttk.Style()
         style.configure("Treeview", font=('', 10))  # Fuente base para la tabla
         style.configure("Treeview.Heading", font=('', 10, 'bold'))  # Fuente para encabezados
 
-        # Definición de columnas con nombres en español
+        # DefiniciÃ³n de columnas con nombres en espaÃ±ol
         columns = {
             "ip": ("IP", 120),
             "hostname": ("Hostname", 150),
@@ -427,7 +432,7 @@ class NetworkScannerGUI(ttk.Window):
         self.results_tree = ttk.Treeview(
             results_table_frame,
             columns=list(columns.keys()),
-            show='headings',  # Solo mostrar los encabezados, sin la columna de árbol
+            show='headings',  # Solo mostrar los encabezados, sin la columna de Ã¡rbol
             style="Treeview",
             height=20  # Altura aproximada en filas
         )
@@ -437,14 +442,14 @@ class NetworkScannerGUI(ttk.Window):
             self.results_tree.heading(col_id, text=header, anchor=W)
             self.results_tree.column(col_id, width=width, stretch=True, anchor=W)
 
-            # Añadir ordenamiento al hacer clic en el encabezado
+            # AÃ±adir ordenamiento al hacer clic en el encabezado
             self.results_tree.heading(
                 col_id,
                 text=header,
                 command=lambda _col=col_id: self._treeview_sort_column(_col, False)
             )
 
-        # Configurar selección y estilo de la tabla
+        # Configurar selecciÃ³n y estilo de la tabla
         self.results_tree.tag_configure('oddrow', background='#f0f0f0')  # Filas alternas
         self.results_tree.tag_configure('evenrow', background='#ffffff')
 
@@ -475,16 +480,16 @@ class NetworkScannerGUI(ttk.Window):
         self.ports_services_text = scrolledtext.ScrolledText(self.details_notebook, wrap=WORD, state=DISABLED, height=10, relief="flat", borderwidth=0)
         self.ssh_details_text = scrolledtext.ScrolledText(self.details_notebook, wrap=WORD, state=DISABLED, height=10, relief="flat", borderwidth=0)
         self.wmi_details_text = scrolledtext.ScrolledText(self.details_notebook, wrap=WORD, state=DISABLED, height=10, relief="flat", borderwidth=0)
-        self.snmp_details_text = scrolledtext.ScrolledText(self.details_notebook, wrap=WORD, state=DISABLED, height=10, relief="flat", borderwidth=0) # Nueva pestaña SNMP
+        self.snmp_details_text = scrolledtext.ScrolledText(self.details_notebook, wrap=WORD, state=DISABLED, height=10, relief="flat", borderwidth=0) # Nueva pestaÃ±a SNMP
 
         self.details_notebook.add(self.general_details_text, text="General")
         self.details_notebook.add(self.ports_services_text, text="Puertos/Servicios")
         self.details_notebook.add(self.wmi_details_text, text="Info WMI")
         self.details_notebook.add(self.ssh_details_text, text="Info SSH")
-        self.details_notebook.add(self.snmp_details_text, text="Info SNMP") # Añadir pestaña SNMP
+        self.details_notebook.add(self.snmp_details_text, text="Info SNMP") # AÃ±adir pestaÃ±a SNMP
 
     def _browse_ssh_key(self):
-        """Abre un diálogo para seleccionar un archivo de clave SSH."""
+        """Abre un diÃ¡logo para seleccionar un archivo de clave SSH."""
         filepath = filedialog.askopenfilename(title="Seleccionar archivo de clave SSH")
         if filepath:
             self.ssh_key_file.set(filepath)
@@ -512,7 +517,7 @@ class NetworkScannerGUI(ttk.Window):
         """Inicia el escaneo Nmap en un hilo separado."""
         target = self.network_range.get().strip()
         if not target:
-            messagebox.showwarning("Advertencia", "Por favor, ingrese un rango de red válido.")
+            messagebox.showwarning("Advertencia", "Por favor, ingrese un rango de red vÃ¡lido.")
             return
 
         self.scan_results.clear() # Limpiar resultados anteriores
@@ -525,11 +530,11 @@ class NetworkScannerGUI(ttk.Window):
         scan_thread.start()
 
     def _perform_nmap_scan_thread(self, target: str):
-        """Lógica de escaneo Nmap que se ejecuta en el hilo."""
+        """LÃ³gica de escaneo Nmap que se ejecuta en el hilo."""
         try:
             self.scan_results = []
 
-            # 1. Escaneo rápido inicial para encontrar hosts activos
+            # 1. Escaneo rÃ¡pido inicial para encontrar hosts activos
             self.after(0, lambda: self._update_scan_ui(True, "Buscando dispositivos activos..."))
             active_ips = self.nmap_scanner.quick_scan(target)
 
@@ -577,7 +582,7 @@ class NetworkScannerGUI(ttk.Window):
                 self._count_device_types()
                 logger.info(f"Escaneo completado. Encontrados {len(self.scan_results)} dispositivos.")
 
-                # Si el escaneo automático está habilitado, iniciar escaneos detallados
+                # Si el escaneo automÃ¡tico estÃ¡ habilitado, iniciar escaneos detallados
                 if self.auto_scan_enabled.get():
                     self._start_automatic_detailed_scans()
                 else:
@@ -589,7 +594,7 @@ class NetworkScannerGUI(ttk.Window):
             logger.error(f"Error durante el escaneo: {e}", exc_info=True)
             self.after(0, lambda: messagebox.showerror(
                 "Error de Escaneo",
-                f"Ocurrió un error durante el escaneo: {e}",
+                f"OcurriÃ³ un error durante el escaneo: {e}",
                 parent=self
             ))
             self.after(0, lambda: self._update_scan_ui(False, "Error durante el escaneo."))
@@ -602,7 +607,7 @@ class NetworkScannerGUI(ttk.Window):
 
         for device in self.scan_results:
             os_lower = device.get_os().lower() if device.get_os() else ""
-            device.has_wmi_potential = False # Usar un nombre más descriptivo
+            device.has_wmi_potential = False # Usar un nombre mÃ¡s descriptivo
             device.has_ssh_potential = False
             device.has_snmp_potential = False
 
@@ -614,7 +619,7 @@ class NetworkScannerGUI(ttk.Window):
                 self.linux_devices_count += 1
                 device.has_ssh_potential = True
 
-            # Nmap puede detectar el servicio SNMP en otros puertos, pero 161/udp es el estándar
+            # Nmap puede detectar el servicio SNMP en otros puertos, pero 161/udp es el estÃ¡ndar
             if 161 in device.get_open_ports().get('udp', {}):
                 self.snmp_devices_count += 1
                 device.has_snmp_potential = True
@@ -624,8 +629,8 @@ class NetworkScannerGUI(ttk.Window):
 
 
     def _populate_results_tree(self):
-        """Actualiza el árbol de resultados con los dispositivos encontrados."""
-        # Limpiar árbol existente
+        """Actualiza el Ã¡rbol de resultados con los dispositivos encontrados."""
+        # Limpiar Ã¡rbol existente
         for item in self.results_tree.get_children():
             self.results_tree.delete(item)
 
@@ -634,7 +639,7 @@ class NetworkScannerGUI(ttk.Window):
 
         # Insertar dispositivos en el Treeview
         for i, device in enumerate(self.scan_results):
-            # Formatear puertos con más detalles
+            # Formatear puertos con mÃ¡s detalles
             if device.services:
                 port_details = []
                 for port, service in device.services.items():
@@ -656,7 +661,7 @@ class NetworkScannerGUI(ttk.Window):
             self.results_tree.insert('', 'end', values=values, tags=('oddrow' if i % 2 else 'evenrow'))
 
     def _apply_filter(self, *args):
-        """Filtra los resultados del Treeview según el texto de búsqueda."""
+        """Filtra los resultados del Treeview segÃºn el texto de bÃºsqueda."""
         search_term = self.search_filter.get().lower()
         if not search_term:
             self.filtered_results = self.scan_results[:]
@@ -672,7 +677,7 @@ class NetworkScannerGUI(ttk.Window):
         self._populate_results_tree()
 
     def _on_device_select(self, event=None):
-        """Maneja la selección de un dispositivo en el Treeview."""
+        """Maneja la selecciÃ³n de un dispositivo en el Treeview."""
         selected_item = self.results_tree.focus()
         if not selected_item:
             self.selected_device_ip = None
@@ -692,7 +697,7 @@ class NetworkScannerGUI(ttk.Window):
             self._clear_details_view()
 
     def _clear_details_view(self):
-        """Limpia todas las pestañas de detalles."""
+        """Limpia todas las pestaÃ±as de detalles."""
         text_widgets = [
             self.general_details_text, self.ports_services_text,
             self.wmi_details_text, self.ssh_details_text, self.snmp_details_text
@@ -716,28 +721,28 @@ class NetworkScannerGUI(ttk.Window):
         widget.config(state=DISABLED)
 
     def _update_device_details_view(self, device: Device):
-        """Actualiza las pestañas de detalles con la información del dispositivo."""
+        """Actualiza las pestaÃ±as de detalles con la informaciÃ³n del dispositivo."""
         if not device:
             self._clear_details_view()
             return
 
-        # Pestaña General
-        general_info = f"""Información General:
+        # PestaÃ±a General
+        general_info = f"""InformaciÃ³n General:
   - IP: {device.ip_address}
   - Hostname: {device.hostname or 'N/A'}
   - MAC: {device.mac_address or 'N/A'}
   - Vendor: {device.vendor or 'N/A'}
   - OS: {device.os_info.get('name', 'N/A')}
   - Tipo: {device.type}
-  - Último escaneo: {device.last_scan or 'N/A'}
+  - Ãšltimo escaneo: {device.last_scan or 'N/A'}
   - Estado: {device.status}
 """
         if device.scan_error:
-            general_info += f"\nError en el último escaneo: {device.scan_error}"
+            general_info += f"\nError en el Ãºltimo escaneo: {device.scan_error}"
 
         self._update_text_widget(self.general_details_text, general_info)
 
-        # Pestaña Puertos/Servicios
+        # PestaÃ±a Puertos/Servicios
         services_info = "Puertos y Servicios:\n"
         if device.services:
             for port, service_info in device.services.items():
@@ -754,8 +759,8 @@ class NetworkScannerGUI(ttk.Window):
             services_info += "  No se encontraron puertos abiertos.\n"
         self._update_text_widget(self.ports_services_text, services_info)
 
-        # Pestaña Hardware
-        hardware_info = "Información de Hardware:\n"
+        # PestaÃ±a Hardware
+        hardware_info = "InformaciÃ³n de Hardware:\n"
         if device.hardware_info:
             for key, value in device.hardware_info.items():
                 hardware_info += f"  - {key.replace('_', ' ').capitalize()}: {value}\n"
@@ -763,25 +768,25 @@ class NetworkScannerGUI(ttk.Window):
             hardware_info += "  No disponible.\n"
         self._update_text_widget(self.wmi_details_text, hardware_info)
 
-        # Pestaña Info SNMP
-        snmp_info = "Información SNMP:\n"
+        # PestaÃ±a Info SNMP
+        snmp_info = "InformaciÃ³n SNMP:\n"
 
-        # Información del sistema
-        snmp_info += "\nInformación del Sistema:\n"
+        # InformaciÃ³n del sistema
+        snmp_info += "\nInformaciÃ³n del Sistema:\n"
         if device.os_info:
             if 'description_snmp' in device.os_info:
-                snmp_info += f"  - Descripción: {device.os_info['description_snmp']}\n"
+                snmp_info += f"  - DescripciÃ³n: {device.os_info['description_snmp']}\n"
             if 'name' in device.os_info:
                 snmp_info += f"  - Sistema Operativo: {device.os_info['name']}\n"
             if 'uptime_snmp' in device.os_info:
                 snmp_info += f"  - Tiempo de actividad: {device.os_info['uptime_snmp']}\n"
             if 'location' in device.os_info:
-                snmp_info += f"  - Ubicación: {device.os_info['location']}\n"
+                snmp_info += f"  - UbicaciÃ³n: {device.os_info['location']}\n"
             if 'contact' in device.os_info:
                 snmp_info += f"  - Contacto: {device.os_info['contact']}\n"
 
-        # Información de hardware
-        snmp_info += "\nInformación de Hardware:\n"
+        # InformaciÃ³n de hardware
+        snmp_info += "\nInformaciÃ³n de Hardware:\n"
         if device.hardware_info:
             if 'total_memory_kb' in device.hardware_info:
                 mem_total = int(device.hardware_info['total_memory_kb']) / 1024
@@ -794,11 +799,11 @@ class NetworkScannerGUI(ttk.Window):
             if 'cpu_load' in device.hardware_info:
                 snmp_info += f"  - Carga de CPU: {device.hardware_info['cpu_load']}%\n"
             if 'running_processes' in device.hardware_info:
-                snmp_info += f"  - Procesos en ejecución: {device.hardware_info['running_processes']}\n"
+                snmp_info += f"  - Procesos en ejecuciÃ³n: {device.hardware_info['running_processes']}\n"
             if 'system_users' in device.hardware_info:
                 snmp_info += f"  - Usuarios del sistema: {device.hardware_info['system_users']}\n"
 
-        # Información de interfaces de red
+        # InformaciÃ³n de interfaces de red
         snmp_info += "\nInterfaces de Red:\n"
         if 'interfaces' in device.network_info:
             for i, interface in enumerate(device.network_info['interfaces']):
@@ -819,14 +824,14 @@ class NetworkScannerGUI(ttk.Window):
                         except (ValueError, TypeError):
                             snmp_info += f"    Velocidad: {interface['speed']}\n"
 
-        # Si no hay información SNMP
+        # Si no hay informaciÃ³n SNMP
         if not device.snmp_info or (len(device.os_info) == 0 and len(device.hardware_info) == 0 and len(device.network_info) == 0):
             snmp_info += "  No disponible o no escaneado.\n"
 
         self._update_text_widget(self.snmp_details_text, snmp_info)
 
-        # Pestaña Info SSH
-        ssh_info_str = "Información SSH:\n"
+        # PestaÃ±a Info SSH
+        ssh_info_str = "InformaciÃ³n SSH:\n"
         if device.ssh_specific_info and device.ssh_specific_info.get("Estado") != "Desconocido" and not device.ssh_specific_info.get("error"):
             for key, value in device.ssh_specific_info.items():
                 ssh_info_str += f"  - {key.replace('_', ' ').capitalize()}: {value}\n"
@@ -836,8 +841,8 @@ class NetworkScannerGUI(ttk.Window):
             ssh_info_str += "  No disponible o no escaneado.\n"
         self._update_text_widget(self.ssh_details_text, ssh_info_str)
 
-        # Pestaña Info WMI
-        wmi_info_str = "Información WMI:\n"
+        # PestaÃ±a Info WMI
+        wmi_info_str = "InformaciÃ³n WMI:\n"
         if device.wmi_specific_info and device.wmi_specific_info.get("Estado") != "Desconocido" and not device.wmi_specific_info.get("error"):
             for key, value in device.wmi_specific_info.items():
                 wmi_info_str += f"  - {key.replace('_', ' ').capitalize()}: {value}\n"
@@ -864,7 +869,7 @@ class NetworkScannerGUI(ttk.Window):
                 engine_info="Nmap Scanner"
             )
 
-            # Añadir dispositivos al reporte
+            # AÃ±adir dispositivos al reporte
             for device in self.scan_results:
                 report.add_device(device)
 
@@ -908,18 +913,18 @@ class NetworkScannerGUI(ttk.Window):
                 messagebox.showerror("Error de Formato", f"Formato de archivo no soportado: {file_ext}", parent=self)
                 return
 
-            messagebox.showinfo("Exportación Exitosa", f"Datos exportados correctamente a:\n{file_path}", parent=self)
+            messagebox.showinfo("ExportaciÃ³n Exitosa", f"Datos exportados correctamente a:\n{file_path}", parent=self)
             logger.info(f"Datos exportados a {file_path}")
         except Exception as e:
-            messagebox.showerror("Error de Exportación", f"No se pudo exportar el archivo: {e}", parent=self)
+            messagebox.showerror("Error de ExportaciÃ³n", f"No se pudo exportar el archivo: {e}", parent=self)
             logger.error(f"Error al exportar datos a {file_path}: {e}", exc_info=True)
 
     def _on_closing(self):
         """Maneja el evento de cierre de la ventana."""
-        if messagebox.askokcancel("Salir", "¿Está seguro de que desea salir?", parent=self):
-            logger.info("Cerrando la aplicación.")
+        if messagebox.askokcancel("Salir", "Â¿EstÃ¡ seguro de que desea salir?", parent=self):
+            logger.info("Cerrando la aplicaciÃ³n.")
             if self.inventory_manager:
-                self.inventory_manager.close() # Cerrar conexión a la base de datos
+                self.inventory_manager.close() # Cerrar conexiÃ³n a la base de datos
             self.destroy()
 
     def _treeview_sort_column(self, col, reverse):
@@ -950,7 +955,7 @@ class NetworkScannerGUI(ttk.Window):
 
     def on_device_found(self, device: Device):
         """Callback cuando se encuentra un dispositivo"""
-        if device and device.ip_address:  # Asegurarse de que el dispositivo es válido
+        if device and device.ip_address:  # Asegurarse de que el dispositivo es vÃ¡lido
             # Actualizar la tabla
             self.after(0, self._populate_results_tree)
 
@@ -958,11 +963,11 @@ class NetworkScannerGUI(ttk.Window):
             self.after(0, lambda: self._update_scan_ui(True, f"Dispositivo encontrado: {device.ip_address}"))
 
     def _create_menu_bar(self):
-        """Crea la barra de menú principal de la aplicación."""
+        """Crea la barra de menÃº principal de la aplicaciÃ³n."""
         menubar = tk.Menu(self)
         self.config(menu=menubar)
 
-        # Menú Archivo
+        # MenÃº Archivo
         file_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Archivo", menu=file_menu)
         file_menu.add_command(label="Nuevo escaneo", command=self._reset_scan)
@@ -971,7 +976,7 @@ class NetworkScannerGUI(ttk.Window):
         file_menu.add_separator()
         file_menu.add_command(label="Importar resultados", command=self._import_results)
 
-        # Submenú de exportación
+        # SubmenÃº de exportaciÃ³n
         export_menu = tk.Menu(file_menu, tearoff=0)
         file_menu.add_cascade(label="Exportar", menu=export_menu)
         export_menu.add_command(label="Exportar a CSV", command=lambda: self._export_results("csv"))
@@ -985,26 +990,26 @@ class NetworkScannerGUI(ttk.Window):
         file_menu.add_separator()
         file_menu.add_command(label="Salir", command=self._on_closing)
 
-        # Menú Escaneo
+        # MenÃº Escaneo
         scan_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Escaneo", menu=scan_menu)
         scan_menu.add_command(label="Iniciar escaneo", command=self._start_nmap_scan)
         scan_menu.add_command(label="Detener escaneo", command=self._stop_scan)
         scan_menu.add_separator()
-        scan_menu.add_command(label="Configuración de escaneo", command=self._configure_scan_options)
+        scan_menu.add_command(label="ConfiguraciÃ³n de escaneo", command=self._configure_scan_options)
         scan_menu.add_command(label="Escaneo programado", command=self._schedule_scan)
         scan_menu.add_separator()
-        scan_menu.add_command(label="Escaneo rápido", command=self._quick_scan)
+        scan_menu.add_command(label="Escaneo rÃ¡pido", command=self._quick_scan)
         scan_menu.add_command(label="Escaneo completo", command=self._full_scan)
         scan_menu.add_command(label="Escaneo personalizado", command=self._custom_scan)
 
-        # Menú Ver
+        # MenÃº Ver
         view_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Ver", menu=view_menu)
-        view_menu.add_command(label="Topología de red", command=self._show_topology)
+        view_menu.add_command(label="TopologÃ­a de red", command=self._show_topology)
         view_menu.add_command(label="Mapa de red interactivo", command=self._show_interactive_map)
-        view_menu.add_command(label="Estadísticas", command=self._show_statistics)
-        view_menu.add_command(label="Gráficos", command=self._show_charts)
+        view_menu.add_command(label="EstadÃ­sticas", command=self._show_statistics)
+        view_menu.add_command(label="GrÃ¡ficos", command=self._show_charts)
         view_menu.add_command(label="Historial de cambios", command=self._show_change_history)
         view_menu.add_separator()
         view_menu.add_command(label="Filtrar resultados", command=self._filter_results)
@@ -1012,19 +1017,19 @@ class NetworkScannerGUI(ttk.Window):
         view_menu.add_separator()
         view_menu.add_command(label="Refrescar", command=self._refresh_view)
 
-        # Menú Herramientas
+        # MenÃº Herramientas
         tools_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Herramientas", menu=tools_menu)
 
-        # Submenú de análisis de seguridad
+        # SubmenÃº de anÃ¡lisis de seguridad
         security_menu = tk.Menu(tools_menu, tearoff=0)
-        tools_menu.add_cascade(label="Análisis de seguridad", menu=security_menu)
-        security_menu.add_command(label="Ejecutar análisis", command=self._run_security_analysis)
-        security_menu.add_command(label="Configurar análisis", command=self._configure_security_analysis)
+        tools_menu.add_cascade(label="AnÃ¡lisis de seguridad", menu=security_menu)
+        security_menu.add_command(label="Ejecutar anÃ¡lisis", command=self._run_security_analysis)
+        security_menu.add_command(label="Configurar anÃ¡lisis", command=self._configure_security_analysis)
         security_menu.add_command(label="Ver vulnerabilidades", command=self._view_vulnerabilities)
         security_menu.add_command(label="Recomendaciones de seguridad", command=self._show_security_recommendations)
 
-        # Submenú de monitoreo
+        # SubmenÃº de monitoreo
         monitoring_menu = tk.Menu(tools_menu, tearoff=0)
         tools_menu.add_cascade(label="Monitoreo", menu=monitoring_menu)
         monitoring_menu.add_command(label="Iniciar monitoreo en tiempo real", command=self._start_monitoring)
@@ -1032,7 +1037,7 @@ class NetworkScannerGUI(ttk.Window):
         monitoring_menu.add_command(label="Configurar monitoreo", command=self._configure_monitoring)
         monitoring_menu.add_command(label="Ver historial de alertas", command=self._view_alert_history)
 
-        # Submenú de alertas
+        # SubmenÃº de alertas
         alerts_menu = tk.Menu(tools_menu, tearoff=0)
         tools_menu.add_cascade(label="Alertas", menu=alerts_menu)
         alerts_menu.add_command(label="Configurar alertas", command=self._configure_alerts)
@@ -1041,16 +1046,16 @@ class NetworkScannerGUI(ttk.Window):
         alerts_menu.add_command(label="Configurar notificaciones", command=self._configure_notifications)
 
         tools_menu.add_separator()
-        tools_menu.add_command(label="Gestión de credenciales", command=self._manage_credentials)
-        tools_menu.add_command(label="Conexión SSH", command=self._connect_ssh)
-        tools_menu.add_command(label="Conexión RDP", command=self._connect_rdp)
+        tools_menu.add_command(label="GestiÃ³n de credenciales", command=self._manage_credentials)
+        tools_menu.add_command(label="ConexiÃ³n SSH", command=self._connect_ssh)
+        tools_menu.add_command(label="ConexiÃ³n RDP", command=self._connect_rdp)
         tools_menu.add_command(label="Abrir interfaz web", command=self._open_web_interface)
         tools_menu.add_separator()
         tools_menu.add_command(label="Ping", command=self._ping_device)
         tools_menu.add_command(label="Traceroute", command=self._traceroute)
         tools_menu.add_command(label="Escaneo de puertos", command=self._port_scan)
 
-        # Menú Inventario
+        # MenÃº Inventario
         inventory_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Inventario", menu=inventory_menu)
         inventory_menu.add_command(label="Ver inventario completo", command=self._show_inventory)
@@ -1058,7 +1063,7 @@ class NetworkScannerGUI(ttk.Window):
         inventory_menu.add_separator()
         inventory_menu.add_command(label="Gestionar etiquetas", command=self._manage_tags)
         inventory_menu.add_command(label="Categorizar dispositivos", command=self._categorize_devices)
-        inventory_menu.add_command(label="Añadir dispositivo manualmente", command=self._add_device_manually)
+        inventory_menu.add_command(label="AÃ±adir dispositivo manualmente", command=self._add_device_manually)
         inventory_menu.add_command(label="Editar dispositivo", command=self._edit_device)
         inventory_menu.add_separator()
         inventory_menu.add_command(label="Exportar inventario", command=self._export_inventory)
@@ -1066,11 +1071,11 @@ class NetworkScannerGUI(ttk.Window):
         inventory_menu.add_separator()
         inventory_menu.add_command(label="Gestionar base de datos", command=self._manage_database)
 
-        # Menú Ayuda
+        # MenÃº Ayuda
         help_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Ayuda", menu=help_menu)
         help_menu.add_command(label="Manual de usuario", command=self._show_user_manual)
-        help_menu.add_command(label="Guía rápida", command=self._show_quick_guide)
+        help_menu.add_command(label="GuÃ­a rÃ¡pida", command=self._show_quick_guide)
         help_menu.add_command(label="Tutoriales", command=self._show_tutorials)
         help_menu.add_command(label="Preguntas frecuentes", command=self._show_faq)
         help_menu.add_separator()
@@ -1079,7 +1084,7 @@ class NetworkScannerGUI(ttk.Window):
         help_menu.add_separator()
         help_menu.add_command(label="Reportar problema", command=self._report_issue)
 
-    # Métodos adicionales para las nuevas opciones del menú
+    # MÃ©todos adicionales para las nuevas opciones del menÃº
     def _save_results(self):
         """Guarda los resultados del escaneo actual."""
         if not self.scan_results:
@@ -1106,8 +1111,8 @@ class NetworkScannerGUI(ttk.Window):
         )
         if file_path:
             try:
-                # Aquí iría la lógica para cargar resultados
-                messagebox.showinfo("Cargar", "Carga de resultados guardados no implementada aún.")
+                # AquÃ­ irÃ­a la lÃ³gica para cargar resultados
+                messagebox.showinfo("Cargar", "Carga de resultados guardados no implementada aÃºn.")
             except Exception as e:
                 messagebox.showerror("Error", f"Error al cargar resultados: {e}")
 
@@ -1117,8 +1122,8 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Informe", "No hay resultados para generar un informe.")
             return
 
-        # Aquí iría la lógica para generar el informe detallado
-        messagebox.showinfo("Informe", "Generación de informe detallado no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para generar el informe detallado
+        messagebox.showinfo("Informe", "GeneraciÃ³n de informe detallado no implementada aÃºn.")
 
     def _generate_security_report(self):
         """Genera un informe de seguridad de los dispositivos escaneados."""
@@ -1126,33 +1131,33 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Informe", "No hay resultados para generar un informe de seguridad.")
             return
 
-        # Aquí iría la lógica para generar el informe de seguridad
-        messagebox.showinfo("Informe", "Generación de informe de seguridad no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para generar el informe de seguridad
+        messagebox.showinfo("Informe", "GeneraciÃ³n de informe de seguridad no implementada aÃºn.")
 
     def _stop_scan(self):
         """Detiene el escaneo en curso."""
-        # Aquí iría la lógica para detener el escaneo
-        messagebox.showinfo("Escaneo", "Detención de escaneo no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para detener el escaneo
+        messagebox.showinfo("Escaneo", "DetenciÃ³n de escaneo no implementada aÃºn.")
 
     def _schedule_scan(self):
-        """Programa un escaneo para ejecutarse en un momento específico."""
-        # Aquí iría la lógica para programar un escaneo
-        messagebox.showinfo("Escaneo", "Programación de escaneo no implementada aún.")
+        """Programa un escaneo para ejecutarse en un momento especÃ­fico."""
+        # AquÃ­ irÃ­a la lÃ³gica para programar un escaneo
+        messagebox.showinfo("Escaneo", "ProgramaciÃ³n de escaneo no implementada aÃºn.")
 
     def _quick_scan(self):
-        """Realiza un escaneo rápido de la red."""
-        # Aquí iría la lógica para un escaneo rápido
-        messagebox.showinfo("Escaneo", "Escaneo rápido no implementado aún.")
+        """Realiza un escaneo rÃ¡pido de la red."""
+        # AquÃ­ irÃ­a la lÃ³gica para un escaneo rÃ¡pido
+        messagebox.showinfo("Escaneo", "Escaneo rÃ¡pido no implementado aÃºn.")
 
     def _full_scan(self):
         """Realiza un escaneo completo y detallado de la red."""
-        # Aquí iría la lógica para un escaneo completo
-        messagebox.showinfo("Escaneo", "Escaneo completo no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para un escaneo completo
+        messagebox.showinfo("Escaneo", "Escaneo completo no implementado aÃºn.")
 
     def _custom_scan(self):
         """Permite configurar un escaneo personalizado."""
-        # Aquí iría la lógica para un escaneo personalizado
-        messagebox.showinfo("Escaneo", "Escaneo personalizado no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para un escaneo personalizado
+        messagebox.showinfo("Escaneo", "Escaneo personalizado no implementado aÃºn.")
 
     def _show_interactive_map(self):
         """Muestra un mapa interactivo de la red."""
@@ -1160,17 +1165,17 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Mapa", "No hay resultados para mostrar el mapa.")
             return
 
-        # Aquí iría la lógica para mostrar el mapa interactivo
-        messagebox.showinfo("Mapa", "Visualización de mapa interactivo no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar el mapa interactivo
+        messagebox.showinfo("Mapa", "VisualizaciÃ³n de mapa interactivo no implementada aÃºn.")
 
     def _show_charts(self):
-        """Muestra gráficos y visualizaciones de los datos de red."""
+        """Muestra grÃ¡ficos y visualizaciones de los datos de red."""
         if not self.scan_results:
-            messagebox.showwarning("Gráficos", "No hay resultados para mostrar gráficos.")
+            messagebox.showwarning("GrÃ¡ficos", "No hay resultados para mostrar grÃ¡ficos.")
             return
 
-        # Aquí iría la lógica para mostrar gráficos
-        messagebox.showinfo("Gráficos", "Visualización de gráficos no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar grÃ¡ficos
+        messagebox.showinfo("GrÃ¡ficos", "VisualizaciÃ³n de grÃ¡ficos no implementada aÃºn.")
 
     def _filter_results(self):
         """Permite filtrar los resultados del escaneo."""
@@ -1178,8 +1183,8 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Filtrar", "No hay resultados para filtrar.")
             return
 
-        # Aquí iría la lógica para filtrar resultados
-        messagebox.showinfo("Filtrar", "Filtrado de resultados no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para filtrar resultados
+        messagebox.showinfo("Filtrar", "Filtrado de resultados no implementado aÃºn.")
 
     def _sort_results(self):
         """Permite ordenar los resultados del escaneo."""
@@ -1187,13 +1192,13 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Ordenar", "No hay resultados para ordenar.")
             return
 
-        # Aquí iría la lógica para ordenar resultados
-        messagebox.showinfo("Ordenar", "Ordenamiento de resultados no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para ordenar resultados
+        messagebox.showinfo("Ordenar", "Ordenamiento de resultados no implementado aÃºn.")
 
     def _configure_security_analysis(self):
-        """Configura las opciones del análisis de seguridad."""
-        # Aquí iría la lógica para configurar el análisis de seguridad
-        messagebox.showinfo("Análisis", "Configuración de análisis de seguridad no implementada aún.")
+        """Configura las opciones del anÃ¡lisis de seguridad."""
+        # AquÃ­ irÃ­a la lÃ³gica para configurar el anÃ¡lisis de seguridad
+        messagebox.showinfo("AnÃ¡lisis", "ConfiguraciÃ³n de anÃ¡lisis de seguridad no implementada aÃºn.")
 
     def _view_vulnerabilities(self):
         """Muestra las vulnerabilidades detectadas en los dispositivos."""
@@ -1201,8 +1206,8 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Vulnerabilidades", "No hay resultados para mostrar vulnerabilidades.")
             return
 
-        # Aquí iría la lógica para mostrar vulnerabilidades
-        messagebox.showinfo("Vulnerabilidades", "Visualización de vulnerabilidades no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar vulnerabilidades
+        messagebox.showinfo("Vulnerabilidades", "VisualizaciÃ³n de vulnerabilidades no implementada aÃºn.")
 
     def _show_security_recommendations(self):
         """Muestra recomendaciones de seguridad para los dispositivos."""
@@ -1210,66 +1215,66 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Recomendaciones", "No hay resultados para mostrar recomendaciones.")
             return
 
-        # Aquí iría la lógica para mostrar recomendaciones
-        messagebox.showinfo("Recomendaciones", "Visualización de recomendaciones no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar recomendaciones
+        messagebox.showinfo("Recomendaciones", "VisualizaciÃ³n de recomendaciones no implementada aÃºn.")
 
     def _start_monitoring(self):
         """Inicia el monitoreo en tiempo real de la red."""
-        # Aquí iría la lógica para iniciar el monitoreo
-        messagebox.showinfo("Monitoreo", "Inicio de monitoreo no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para iniciar el monitoreo
+        messagebox.showinfo("Monitoreo", "Inicio de monitoreo no implementado aÃºn.")
 
     def _stop_monitoring(self):
         """Detiene el monitoreo en tiempo real de la red."""
-        # Aquí iría la lógica para detener el monitoreo
-        messagebox.showinfo("Monitoreo", "Detención de monitoreo no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para detener el monitoreo
+        messagebox.showinfo("Monitoreo", "DetenciÃ³n de monitoreo no implementado aÃºn.")
 
     def _configure_monitoring(self):
         """Configura las opciones del monitoreo en tiempo real."""
-        # Aquí iría la lógica para configurar el monitoreo
-        messagebox.showinfo("Monitoreo", "Configuración de monitoreo no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para configurar el monitoreo
+        messagebox.showinfo("Monitoreo", "ConfiguraciÃ³n de monitoreo no implementada aÃºn.")
 
     def _view_alert_history(self):
         """Muestra el historial de alertas."""
-        # Aquí iría la lógica para mostrar el historial de alertas
-        messagebox.showinfo("Alertas", "Visualización de historial de alertas no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar el historial de alertas
+        messagebox.showinfo("Alertas", "VisualizaciÃ³n de historial de alertas no implementada aÃºn.")
 
     def _create_custom_alert_rule(self):
         """Crea una regla personalizada para alertas."""
-        # Aquí iría la lógica para crear reglas de alertas
-        messagebox.showinfo("Alertas", "Creación de reglas personalizadas no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para crear reglas de alertas
+        messagebox.showinfo("Alertas", "CreaciÃ³n de reglas personalizadas no implementada aÃºn.")
 
     def _manage_alert_rules(self):
         """Gestiona las reglas de alertas existentes."""
-        # Aquí iría la lógica para gestionar reglas de alertas
-        messagebox.showinfo("Alertas", "Gestión de reglas de alertas no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para gestionar reglas de alertas
+        messagebox.showinfo("Alertas", "GestiÃ³n de reglas de alertas no implementada aÃºn.")
 
     def _configure_notifications(self):
         """Configura las notificaciones del sistema."""
-        # Aquí iría la lógica para configurar notificaciones
-        messagebox.showinfo("Notificaciones", "Configuración de notificaciones no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para configurar notificaciones
+        messagebox.showinfo("Notificaciones", "ConfiguraciÃ³n de notificaciones no implementada aÃºn.")
 
     def _configure_alerts(self):
         """Configura las alertas del sistema."""
-        # Aquí iría la lógica para configurar alertas
-        messagebox.showinfo("Alertas", "Configuración de alertas no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para configurar alertas
+        messagebox.showinfo("Alertas", "ConfiguraciÃ³n de alertas no implementada aÃºn.")
 
     def _connect_ssh(self):
-        """Establece una conexión SSH con un dispositivo seleccionado."""
+        """Establece una conexiÃ³n SSH con un dispositivo seleccionado."""
         if not self.selected_device_ip:
             messagebox.showwarning("SSH", "No hay dispositivo seleccionado para conectar.")
             return
 
-        # Aquí iría la lógica para conectar por SSH
-        messagebox.showinfo("SSH", f"Conexión SSH a {self.selected_device_ip} no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para conectar por SSH
+        messagebox.showinfo("SSH", f"ConexiÃ³n SSH a {self.selected_device_ip} no implementada aÃºn.")
 
     def _connect_rdp(self):
-        """Establece una conexión RDP con un dispositivo seleccionado."""
+        """Establece una conexiÃ³n RDP con un dispositivo seleccionado."""
         if not self.selected_device_ip:
             messagebox.showwarning("RDP", "No hay dispositivo seleccionado para conectar.")
             return
 
-        # Aquí iría la lógica para conectar por RDP
-        messagebox.showinfo("RDP", f"Conexión RDP a {self.selected_device_ip} no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para conectar por RDP
+        messagebox.showinfo("RDP", f"ConexiÃ³n RDP a {self.selected_device_ip} no implementada aÃºn.")
 
     def _open_web_interface(self):
         """Abre la interfaz web de un dispositivo seleccionado."""
@@ -1277,8 +1282,8 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Web", "No hay dispositivo seleccionado para abrir interfaz web.")
             return
 
-        # Aquí iría la lógica para abrir la interfaz web
-        messagebox.showinfo("Web", f"Apertura de interfaz web para {self.selected_device_ip} no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para abrir la interfaz web
+        messagebox.showinfo("Web", f"Apertura de interfaz web para {self.selected_device_ip} no implementada aÃºn.")
 
     def _ping_device(self):
         """Realiza un ping a un dispositivo seleccionado."""
@@ -1286,8 +1291,8 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Ping", "No hay dispositivo seleccionado para hacer ping.")
             return
 
-        # Aquí iría la lógica para hacer ping
-        messagebox.showinfo("Ping", f"Ping a {self.selected_device_ip} no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para hacer ping
+        messagebox.showinfo("Ping", f"Ping a {self.selected_device_ip} no implementado aÃºn.")
 
     def _traceroute(self):
         """Realiza un traceroute a un dispositivo seleccionado."""
@@ -1295,8 +1300,8 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Traceroute", "No hay dispositivo seleccionado para hacer traceroute.")
             return
 
-        # Aquí iría la lógica para hacer traceroute
-        messagebox.showinfo("Traceroute", f"Traceroute a {self.selected_device_ip} no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para hacer traceroute
+        messagebox.showinfo("Traceroute", f"Traceroute a {self.selected_device_ip} no implementado aÃºn.")
 
     def _port_scan(self):
         """Realiza un escaneo de puertos a un dispositivo seleccionado."""
@@ -1304,8 +1309,8 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Escaneo", "No hay dispositivo seleccionado para escanear puertos.")
             return
 
-        # Aquí iría la lógica para escanear puertos
-        messagebox.showinfo("Escaneo", f"Escaneo de puertos para {self.selected_device_ip} no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para escanear puertos
+        messagebox.showinfo("Escaneo", f"Escaneo de puertos para {self.selected_device_ip} no implementado aÃºn.")
 
     def _categorize_devices(self):
         """Permite categorizar los dispositivos del inventario."""
@@ -1313,52 +1318,52 @@ class NetworkScannerGUI(ttk.Window):
             messagebox.showwarning("Categorizar", "No hay dispositivos para categorizar.")
             return
 
-        # Aquí iría la lógica para categorizar dispositivos
-        messagebox.showinfo("Categorizar", "Categorización de dispositivos no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para categorizar dispositivos
+        messagebox.showinfo("Categorizar", "CategorizaciÃ³n de dispositivos no implementada aÃºn.")
 
     def _add_device_manually(self):
-        """Añade un dispositivo manualmente al inventario."""
-        # Aquí iría la lógica para añadir dispositivos manualmente
-        messagebox.showinfo("Añadir", "Adición manual de dispositivos no implementada aún.")
+        """AÃ±ade un dispositivo manualmente al inventario."""
+        # AquÃ­ irÃ­a la lÃ³gica para aÃ±adir dispositivos manualmente
+        messagebox.showinfo("AÃ±adir", "AdiciÃ³n manual de dispositivos no implementada aÃºn.")
 
     def _edit_device(self):
-        """Edita la información de un dispositivo seleccionado."""
+        """Edita la informaciÃ³n de un dispositivo seleccionado."""
         if not self.selected_device_ip:
             messagebox.showwarning("Editar", "No hay dispositivo seleccionado para editar.")
             return
 
-        # Aquí iría la lógica para editar dispositivos
-        messagebox.showinfo("Editar", f"Edición de dispositivo {self.selected_device_ip} no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para editar dispositivos
+        messagebox.showinfo("Editar", f"EdiciÃ³n de dispositivo {self.selected_device_ip} no implementada aÃºn.")
 
     def _import_inventory(self):
         """Importa un inventario desde un archivo."""
-        # Aquí iría la lógica para importar inventario
-        messagebox.showinfo("Importar", "Importación de inventario no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para importar inventario
+        messagebox.showinfo("Importar", "ImportaciÃ³n de inventario no implementada aÃºn.")
 
     def _manage_database(self):
         """Gestiona la base de datos del inventario."""
-        # Aquí iría la lógica para gestionar la base de datos
-        messagebox.showinfo("Base de datos", "Gestión de base de datos no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para gestionar la base de datos
+        messagebox.showinfo("Base de datos", "GestiÃ³n de base de datos no implementada aÃºn.")
 
     def _show_quick_guide(self):
-        """Muestra una guía rápida de uso de la aplicación."""
-        # Aquí iría la lógica para mostrar la guía rápida
-        messagebox.showinfo("Guía", "Guía rápida no implementada aún.")
+        """Muestra una guÃ­a rÃ¡pida de uso de la aplicaciÃ³n."""
+        from .help_functions import show_html_content
+        show_html_content(self, "GuÃ­a RÃ¡pida", "quick_guide.html")
 
     def _show_tutorials(self):
-        """Muestra tutoriales de uso de la aplicación."""
-        # Aquí iría la lógica para mostrar tutoriales
-        messagebox.showinfo("Tutoriales", "Tutoriales no implementados aún.")
+        """Muestra tutoriales de uso de la aplicaciÃ³n."""
+        from .help_functions import show_html_content
+        show_html_content(self, "Tutoriales", "tutorials.html")
 
     def _show_faq(self):
-        """Muestra preguntas frecuentes sobre la aplicación."""
-        # Aquí iría la lógica para mostrar FAQ
-        messagebox.showinfo("FAQ", "Preguntas frecuentes no implementadas aún.")
+        """Muestra preguntas frecuentes sobre la aplicaciÃ³n."""
+        from .help_functions import show_html_content
+        show_html_content(self, "Preguntas Frecuentes", "faq.html")
 
     def _reset_scan(self):
-        """Reinicia la aplicación para un nuevo escaneo."""
+        """Reinicia la aplicaciÃ³n para un nuevo escaneo."""
         if self.scan_results and messagebox.askyesno("Nuevo escaneo",
-                                                     "¿Desea iniciar un nuevo escaneo? Se perderán los resultados actuales si no han sido guardados."):
+                                                     "Â¿Desea iniciar un nuevo escaneo? Se perderÃ¡n los resultados actuales si no han sido guardados."):
             self.scan_results = []
             self.filtered_results = []
             self._update_results_table()
@@ -1374,8 +1379,8 @@ class NetworkScannerGUI(ttk.Window):
         )
         if file_path:
             try:
-                # Aquí iría la lógica para importar resultados
-                messagebox.showinfo("Importar", "Importación de resultados no implementada aún.")
+                # AquÃ­ irÃ­a la lÃ³gica para importar resultados
+                messagebox.showinfo("Importar", "ImportaciÃ³n de resultados no implementada aÃºn.")
             except Exception as e:
                 messagebox.showerror("Error", f"Error al importar resultados: {e}")
 
@@ -1419,118 +1424,102 @@ class NetworkScannerGUI(ttk.Window):
                     defaultextension=".pdf",
                     filetypes=[("Archivos PDF", "*.pdf"), ("Todos los archivos", "*.*")])
                 if file_path:
-                    # Aquí iría la lógica para exportar a PDF
-                    messagebox.showinfo("Exportar", "Exportación a PDF no implementada aún.")
+                    # AquÃ­ irÃ­a la lÃ³gica para exportar a PDF
+                    messagebox.showinfo("Exportar", "ExportaciÃ³n a PDF no implementada aÃºn.")
 
         except Exception as e:
             messagebox.showerror("Error", f"Error al exportar resultados: {e}")
 
     def _show_topology(self):
-        """Muestra la topología de red."""
+        """Muestra la topologÃ­a de red."""
         if not self.scan_results:
-            messagebox.showwarning("Topología", "No hay resultados para mostrar la topología.")
+            messagebox.showwarning("TopologÃ­a", "No hay resultados para mostrar la topologÃ­a.")
             return
 
-        # Aquí iría la lógica para mostrar la topología
-        messagebox.showinfo("Topología", "Visualización de topología no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar la topologÃ­a
+        messagebox.showinfo("TopologÃ­a", "VisualizaciÃ³n de topologÃ­a no implementada aÃºn.")
 
     def _show_statistics(self):
-        """Muestra estadísticas de los dispositivos escaneados."""
+        """Muestra estadÃ­sticas de los dispositivos escaneados."""
         if not self.scan_results:
-            messagebox.showwarning("Estadísticas", "No hay resultados para mostrar estadísticas.")
+            messagebox.showwarning("EstadÃ­sticas", "No hay resultados para mostrar estadÃ­sticas.")
             return
 
-        # Aquí iría la lógica para mostrar estadísticas
-        messagebox.showinfo("Estadísticas", "Visualización de estadísticas no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar estadÃ­sticas
+        messagebox.showinfo("EstadÃ­sticas", "VisualizaciÃ³n de estadÃ­sticas no implementada aÃºn.")
 
     def _show_change_history(self):
         """Muestra el historial de cambios en la red."""
-        # Aquí iría la lógica para mostrar el historial de cambios
-        messagebox.showinfo("Historial", "Visualización de historial no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar el historial de cambios
+        messagebox.showinfo("Historial", "VisualizaciÃ³n de historial no implementada aÃºn.")
 
     def _refresh_view(self):
         """Refresca la vista actual."""
         self._update_results_table()
 
     def _run_security_analysis(self):
-        """Ejecuta un análisis de seguridad en los dispositivos escaneados."""
+        """Ejecuta un anÃ¡lisis de seguridad en los dispositivos escaneados."""
         if not self.scan_results:
-            messagebox.showwarning("Análisis", "No hay dispositivos para analizar.")
+            messagebox.showwarning("AnÃ¡lisis", "No hay dispositivos para analizar.")
             return
 
-        # Aquí iría la lógica para el análisis de seguridad
-        messagebox.showinfo("Análisis", "Análisis de seguridad no implementado aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para el anÃ¡lisis de seguridad
+        messagebox.showinfo("AnÃ¡lisis", "AnÃ¡lisis de seguridad no implementado aÃºn.")
 
     def _manage_credentials(self):
         """Gestiona las credenciales para acceso a dispositivos."""
-        # Aquí iría la lógica para gestionar credenciales
-        messagebox.showinfo("Credenciales", "Gestión de credenciales no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para gestionar credenciales
+        messagebox.showinfo("Credenciales", "GestiÃ³n de credenciales no implementada aÃºn.")
 
     def _configure_scan_options(self):
         """Configura opciones avanzadas de escaneo."""
-        # Aquí iría la lógica para configurar opciones de escaneo
-        messagebox.showinfo("Opciones", "Configuración de opciones de escaneo no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para configurar opciones de escaneo
+        messagebox.showinfo("Opciones", "ConfiguraciÃ³n de opciones de escaneo no implementada aÃºn.")
 
     def _show_inventory(self):
         """Muestra el inventario completo de dispositivos."""
-        # Aquí iría la lógica para mostrar el inventario
-        messagebox.showinfo("Inventario", "Visualización de inventario no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para mostrar el inventario
+        messagebox.showinfo("Inventario", "VisualizaciÃ³n de inventario no implementada aÃºn.")
 
     def _search_device(self):
-        """Busca un dispositivo específico en el inventario."""
-        # Aquí iría la lógica para buscar dispositivos
-        messagebox.showinfo("Búsqueda", "Búsqueda de dispositivos no implementada aún.")
+        """Busca un dispositivo especÃ­fico en el inventario."""
+        # AquÃ­ irÃ­a la lÃ³gica para buscar dispositivos
+        messagebox.showinfo("BÃºsqueda", "BÃºsqueda de dispositivos no implementada aÃºn.")
 
     def _manage_tags(self):
         """Gestiona las etiquetas para categorizar dispositivos."""
-        # Aquí iría la lógica para gestionar etiquetas
-        messagebox.showinfo("Etiquetas", "Gestión de etiquetas no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para gestionar etiquetas
+        messagebox.showinfo("Etiquetas", "GestiÃ³n de etiquetas no implementada aÃºn.")
 
     def _export_inventory(self):
         """Exporta el inventario completo."""
-        # Aquí iría la lógica para exportar el inventario
-        messagebox.showinfo("Exportar", "Exportación de inventario no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para exportar el inventario
+        messagebox.showinfo("Exportar", "ExportaciÃ³n de inventario no implementada aÃºn.")
 
     def _show_user_manual(self):
         """Muestra el manual de usuario."""
-        # Aquí iría la lógica para mostrar el manual
-        messagebox.showinfo("Manual", "Manual de usuario no implementado aún.")
+        from .help_functions import show_html_content
+        show_html_content(self, "Manual de Usuario", "user_manual.md")
 
     def _show_about(self):
-        """Muestra información sobre la aplicación."""
-        about_window = ttk.Toplevel(self)
-        about_window.title("Acerca de")
-        about_window.geometry("400x300")
-        about_window.resizable(False, False)
-
-        frame = ttk.Frame(about_window, padding=20)
-        frame.pack(fill=BOTH, expand=True)
-
-        ttk.Label(frame, text="Herramienta de Inventariado y Monitoreo de Red",
-                  font=("Helvetica", 12, "bold")).pack(pady=10)
-        ttk.Label(frame, text="Versión 3.0").pack()
-        ttk.Separator(frame, orient=HORIZONTAL).pack(fill=X, pady=10)
-        ttk.Label(frame, text="Esta aplicación permite escanear dispositivos en una red local,\n"
-                              "detectar sus servicios activos, analizar riesgos de seguridad\n"
-                              "y monitorear la red en tiempo real.").pack(pady=10)
-        ttk.Label(frame, text=" 2025 MiProyectoRed").pack(pady=10)
-
-        ttk.Button(frame, text="Cerrar", command=about_window.destroy).pack(pady=10)
+        """Muestra informaciÃ³n sobre la aplicaciÃ³n."""
+        from .help_functions import show_about
+        show_about(self)
 
     def _check_updates(self):
         """Verifica si hay actualizaciones disponibles."""
-        # Aquí iría la lógica para verificar actualizaciones
-        messagebox.showinfo("Actualizaciones", "Verificación de actualizaciones no implementada aún.")
+        # AquÃ­ irÃ­a la lÃ³gica para verificar actualizaciones
+        messagebox.showinfo("Actualizaciones", "VerificaciÃ³n de actualizaciones no implementada aÃºn.")
 
     def _report_issue(self):
-        """Permite reportar un problema con la aplicación."""
-        # Aquí iría la lógica para reportar problemas
-        messagebox.showinfo("Reportar", "Reporte de problemas no implementado aún.")
+        """Permite reportar un problema con la aplicaciÃ³n."""
+        # AquÃ­ irÃ­a la lÃ³gica para reportar problemas
+        messagebox.showinfo("Reportar", "Reporte de problemas no implementado aÃºn.")
 
     def _start_automatic_detailed_scans(self):
-        """Inicia escaneos detallados automáticos (SNMP, SSH, WMI) para los dispositivos encontrados."""
+        """Inicia escaneos detallados automÃ¡ticos (SNMP, SSH, WMI) para los dispositivos encontrados."""
         try:
-            self.after(0, lambda: self._update_scan_ui(True, "Iniciando escaneos detallados automáticos..."))
+            self.after(0, lambda: self._update_scan_ui(True, "Iniciando escaneos detallados automÃ¡ticos..."))
             
             # Crear credenciales para los escaneos
             credentials = NetworkCredentials(
@@ -1541,7 +1530,7 @@ class NetworkScannerGUI(ttk.Window):
                 snmp_community=self.snmp_community.get()
             )
             
-            # Contador para dispositivos escaneados con éxito
+            # Contador para dispositivos escaneados con Ã©xito
             successful_scans = 0
             total_devices = len(self.scan_results)
             
@@ -1573,8 +1562,8 @@ class NetworkScannerGUI(ttk.Window):
                 False, f"Escaneo completado. {successful_scans}/{total_devices} dispositivos escaneados con SNMP."))
             
         except Exception as e:
-            logger.error(f"Error en escaneos detallados automáticos: {e}", exc_info=True)
-            self.after(0, lambda: self._update_scan_ui(False, "Error en escaneos detallados automáticos."))
+            logger.error(f"Error en escaneos detallados automÃ¡ticos: {e}", exc_info=True)
+            self.after(0, lambda: self._update_scan_ui(False, "Error en escaneos detallados automÃ¡ticos."))
 
     def _update_results_table(self):
         """Actualiza la tabla de resultados."""
@@ -1586,12 +1575,12 @@ class NetworkScannerGUI(ttk.Window):
         self._apply_filter()
 
 if __name__ == '__main__':
-    # Asegurarse que el directorio del proyecto está en sys.path para importaciones relativas
+    # Asegurarse que el directorio del proyecto estÃ¡ en sys.path para importaciones relativas
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
 
-    # Reimportar módulos con el path actualizado (si es necesario para pruebas directas del GUI)
+    # Reimportar mÃ³dulos con el path actualizado (si es necesario para pruebas directas del GUI)
     from miproyectored.scanner.nmap_scanner import NmapScanner
     from miproyectored.scanner.wmi_scanner import WmiScanner
     from miproyectored.scanner.ssh_scanner import SshScanner

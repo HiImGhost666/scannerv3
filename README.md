@@ -1,7 +1,7 @@
 # MiProyectoRed: Herramienta Avanzada de Inventariado y Monitoreo de Red
 
 <div align="center">
-  <img src="gui/resources/SG - Logo Laberit principal.png" alt="MiProyectoRed Banner">
+  <img src="miproyectored/gui/resources/SG - Logo Laberit principal.png" alt="MiProyectoRed Banner">
 </div>
 
 ## 🌐 Visión General

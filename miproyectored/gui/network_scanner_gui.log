@@ -722,3 +722,144 @@ AttributeError: '_tkinter.tkapp' object has no attribute 'colors'
 2025-05-30 12:34:41,161 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
 2025-05-30 12:47:55,239 - miproyectored.gui.app_gui - INFO - Escaneo completado. Encontrados 11 dispositivos.
 2025-05-30 12:53:23,694 - miproyectored.gui.app_gui - INFO - Cerrando la aplicaci�n.
+2025-06-02 09:32:22,419 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 09:32:22,592 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
+2025-06-02 09:32:36,042 - miproyectored.gui.app_gui - INFO - Cerrando la aplicaci�n.
+2025-06-02 09:32:40,472 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 09:32:40,619 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
+2025-06-02 09:32:45,893 - miproyectored.gui.app_gui - INFO - Cerrando la aplicaci�n.
+2025-06-02 09:32:49,771 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 09:32:49,906 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
+2025-06-02 09:32:55,835 - miproyectored.gui.app_gui - INFO - Cerrando la aplicaci�n.
+2025-06-02 09:36:49,302 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 09:36:49,421 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
+2025-06-02 09:37:01,368 - miproyectored.gui.app_gui - INFO - Cerrando la aplicaci�n.
+2025-06-02 09:47:44,608 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 09:47:44,903 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
+2025-06-02 09:48:01,734 - miproyectored.gui.app_gui - INFO - Cerrando la aplicaci�n.
+2025-06-02 10:38:33,919 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 10:38:34,190 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
+2025-06-02 10:40:32,826 - miproyectored.gui.app_gui - INFO - Cerrando la aplicaci�n.
+2025-06-02 10:41:14,642 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 10:41:14,816 - miproyectored.gui.app_gui - INFO - Interfaz gr�fica inicializada correctamente
+2025-06-02 10:55:49,738 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 10:55:49,973 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 10:56:17,890 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 10:57:10,388 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 10:57:10,517 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 10:58:04,479 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:00:02,127 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:00:02,576 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:00:09,250 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:16:48,744 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:16:49,015 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:17:05,836 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:21:42,482 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:21:42,628 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:31:42,463 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:31:42,698 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:31:57,979 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:32:10,678 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:32:10,851 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:32:33,249 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:32:33,381 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:32:51,572 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:35:06,168 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:35:06,317 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:35:26,459 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:41:49,449 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:41:49,633 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:42:11,481 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:42:22,832 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:42:22,957 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:45:33,606 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:45:33,731 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:45:51,944 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:54:07,559 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:54:07,808 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:54:14,460 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:54:24,154 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:54:24,326 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:54:31,710 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 11:54:43,544 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 11:54:43,689 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 11:54:48,518 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 12:13:22,585 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:13:22,865 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:13:49,238 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 12:18:11,089 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:18:11,336 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:18:26,937 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 12:19:46,524 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:19:46,675 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:21:56,699 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:21:56,833 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:22:28,603 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:22:28,732 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:28:03,631 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 12:28:11,491 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:28:11,644 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:37:11,073 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:37:11,376 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:37:20,101 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 12:37:31,960 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:37:32,113 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:37:49,899 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 12:39:02,938 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:39:03,123 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:53:13,583 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:53:13,864 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 12:53:31,894 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 12:53:36,630 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 12:53:37,001 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 13:01:38,966 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 13:01:58,101 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 13:01:58,671 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 13:02:02,022 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 13:03:01,789 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 13:03:02,028 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 13:04:38,493 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 13:04:38,764 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 13:08:01,992 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 13:08:02,192 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 13:17:46,390 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 13:17:46,651 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 13:19:55,912 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 13:19:56,063 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 13:21:01,797 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 13:21:02,226 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 13:21:28,654 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 13:32:02,480 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 13:32:02,740 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:07:17,861 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:07:18,271 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:08:13,982 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 15:09:59,747 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:09:59,893 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:11:22,512 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:11:22,704 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:12:05,267 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:12:05,412 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:12:37,160 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:12:37,313 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:12:43,461 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-02 15:15:35,831 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:15:36,058 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:16:08,598 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:16:08,742 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:16:37,088 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:16:37,278 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:17:37,151 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:17:37,321 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:18:02,588 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:18:02,710 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:18:19,071 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:18:19,217 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:30:43,153 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:30:43,585 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:31:23,399 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:31:23,548 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:34:22,653 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:34:22,842 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-02 15:36:26,424 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-02 15:36:26,754 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
