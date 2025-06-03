@@ -893,3 +893,140 @@ AttributeError: '_tkinter.tkapp' object has no attribute 'colors'
 2025-06-03 08:49:58,409 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
 2025-06-03 08:50:43,759 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
 2025-06-03 08:50:43,919 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:53:05,886 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:53:06,024 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:53:43,144 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:53:43,297 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 09:18:52,385 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 09:18:52,644 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 09:20:15,796 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 09:20:15,974 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 09:20:38,643 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 09:20:38,787 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 09:20:44,438 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 09:20:50,766 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 09:20:50,904 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 09:20:56,132 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 10:51:20,462 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 10:51:20,708 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 10:51:29,757 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 10:52:04,232 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 10:52:04,366 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 10:53:54,745 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 10:53:54,916 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 10:54:01,512 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 10:54:28,561 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 10:54:28,804 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 10:54:35,475 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 10:56:47,694 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 10:56:47,868 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 10:58:42,303 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 10:58:42,452 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 10:59:31,279 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 10:59:31,404 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 10:59:41,293 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 11:03:55,750 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:03:55,911 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:04:46,918 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:04:47,075 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:11:28,627 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 11:17:27,187 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:17:28,027 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:23:31,324 - miproyectored.gui.app_gui - ERROR - Error al inicializar la interfaz gráfica: maximum recursion depth exceeded
+Traceback (most recent call last):
+  File "C:\Users\lmarten\IdeaProjects\scannerv3\miproyectored\gui\app_gui.py", line 72, in __init__
+    self.protocol("WM_DELETE_WINDOW", self.on_close)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lmarten\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2383, in wm_protocol
+    command = self._register(func)
+  File "C:\Users\lmarten\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 1698, in _register
+    self.tk.createcommand(name, f)
+    ^^^^^^^
+  File "C:\Users\lmarten\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2546, in __getattr__
+    return getattr(self.tk, attr)
+                   ^^^^^^^
+  File "C:\Users\lmarten\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2546, in __getattr__
+    return getattr(self.tk, attr)
+                   ^^^^^^^
+  File "C:\Users\lmarten\AppData\Local\Programs\Python\Python313\Lib\tkinter\__init__.py", line 2546, in __getattr__
+    return getattr(self.tk, attr)
+                   ^^^^^^^
+  [Previous line repeated 992 more times]
+RecursionError: maximum recursion depth exceeded
+2025-06-03 11:25:08,202 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:25:08,536 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:26:31,510 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:26:31,678 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:30:46,954 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 11:46:55,091 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:46:55,345 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:46:58,049 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:46:58,049 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only --no-debug C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:47:00,062 - miproyectored.gui.app_gui - ERROR - Error al iniciar el servidor SQLite Web.
+Detalles:
+C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe: No module named sqlite_web
+
+2025-06-03 11:48:48,494 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:48:48,720 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:48:51,761 - miproyectored.gui.app_gui - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 11:48:51,762 - miproyectored.gui.app_gui - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only --no-debug C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:48:51,762 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:48:51,762 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only --no-debug C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:48:53,817 - miproyectored.gui.app_gui - ERROR - Error al iniciar el servidor SQLite Web.
+Detalles:
+Usage: __main__.py [options]
+
+__main__.py: error: no such option: --no-debug
+
+2025-06-03 11:49:21,000 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:49:22,057 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:49:24,427 - miproyectored.gui.app_gui - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 11:49:24,428 - miproyectored.gui.app_gui - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:49:24,428 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:49:24,428 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:51:12,649 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:51:12,817 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:51:14,822 - miproyectored.gui.app_gui - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 11:51:14,823 - miproyectored.gui.app_gui - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:51:14,823 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:51:14,823 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:53:42,662 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 11:53:59,479 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:53:59,637 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:54:08,695 - miproyectored.gui.app_gui - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 11:54:08,695 - miproyectored.gui.app_gui - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:54:08,696 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:54:08,696 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:58:42,657 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 11:59:42,476 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 11:59:42,863 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 11:59:45,729 - miproyectored.gui.app_gui - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 11:59:45,729 - miproyectored.gui.app_gui - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:59:45,730 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:59:45,730 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 11:59:58,715 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 12:04:10,707 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 12:04:10,892 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 12:04:12,703 - miproyectored.gui.app_gui - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 12:04:12,703 - miproyectored.gui.app_gui - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:04:12,703 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:04:12,703 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:04:40,321 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 12:04:40,451 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 12:04:45,656 - miproyectored.gui.app_gui - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 12:04:45,656 - miproyectored.gui.app_gui - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:04:45,656 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:04:45,656 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:05:05,815 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 12:05:05,946 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 12:05:08,879 - miproyectored.gui.app_gui - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 12:05:08,880 - miproyectored.gui.app_gui - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:05:08,880 - miproyectored.gui.app_gui - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:05:08,880 - miproyectored.gui.app_gui - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:06:16,579 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 12:06:57,863 - miproyectored - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 12:06:58,014 - miproyectored - INFO - Interfaz grÃ¡fica inicializada correctamente
+2025-06-03 12:07:11,628 - miproyectored - INFO - Python executable: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe
+2025-06-03 12:07:11,629 - miproyectored - INFO - Comando completo: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:07:11,629 - miproyectored - INFO - Iniciando servidor SQLite Web con base de datos: C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db
+2025-06-03 12:07:11,629 - miproyectored - INFO - Comando: C:\Users\lmarten\AppData\Local\Programs\Python\Python313\python.exe -m sqlite_web --host 127.0.0.1 --port 8080 --no-browser --read-only C:\Users\lmarten\IdeaProjects\scannerv3\network_inventory.db

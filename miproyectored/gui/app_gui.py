@@ -20,6 +20,9 @@ import socket
 import sqlite3
 import webbrowser
 import tempfile
+import subprocess
+import atexit
+from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple, Any
 from PIL import Image, ImageTk  # Añadido para manejar imágenes
@@ -37,23 +40,37 @@ from miproyectored.auth.network_credentials import NetworkCredentials
 # Importar nuevos módulos para escaneo detallado
 
 # Configuración del sistema de logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('miproyectored')
 logger.setLevel(logging.INFO)
 
-if not logger.handlers:
-    log_file_path = os.path.join(os.path.dirname(__file__), 'network_scanner_gui.log')
-    file_handler = logging.FileHandler(log_file_path)
-    file_handler.setLevel(logging.INFO)
+# Evitar la propagación al logger raíz para evitar duplicados
+logger.propagate = False
 
+# Configurar manejadores solo si no existen ya
+if not logger.handlers:
+    # Configurar manejador de archivo
+    log_file_path = os.path.join(os.path.dirname(__file__), 'network_scanner_gui.log')
+    file_handler = logging.FileHandler(log_file_path, encoding='utf-8')
+    file_handler.setLevel(logging.INFO)
+    
+    # Configurar manejador de consola
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
-
+    
+    # Formato de los mensajes
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     file_handler.setFormatter(formatter)
     console_handler.setFormatter(formatter)
-
+    
+    # Añadir manejadores al logger
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
+    
+    # Configurar el logger raíz para que no muestre mensajes no deseados
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.WARNING)
+    for hdlr in root_logger.handlers[:]:
+        root_logger.removeHandler(hdlr)
 
 class NetworkScannerGUI(ttk.Window):
     """
@@ -62,6 +79,15 @@ class NetworkScannerGUI(ttk.Window):
     def __init__(self):
         """Inicializa la interfaz gráfica."""
         try:
+            # Variable para almacenar el proceso del servidor SQLite Web
+            self.sqlite_web_process = None
+            
+            # Inicializar la ventana principal
+            super().__init__(themename="litera")
+            
+            # Configurar el manejador de cierre después de inicializar la ventana
+            self.protocol("WM_DELETE_WINDOW", self.on_close)
+            
             # Definición de colores corporativos
             self.COLORES = {
                 'azul_oscuro': "#091F2C",    # Pantone 5395 C (color primario)
@@ -71,9 +97,6 @@ class NetworkScannerGUI(ttk.Window):
                 'azul_claro': "#A6BBC8",     # Pantone 5435 C (complementario)
                 'blanco': "#FFFFFF"
             }
-            
-            # Inicializar con un tema existente
-            super().__init__(themename="litera")
             
             # Personalizar el tema con colores corporativos
             self._apply_corporate_colors()
@@ -1475,10 +1498,164 @@ class NetworkScannerGUI(ttk.Window):
         # Aquí iría la lógica para configurar opciones de escaneo
         messagebox.showinfo("Opciones", "Configuración de opciones de escaneo no implementada aún.")
 
+    def on_close(self):
+        """Método que se ejecuta al cerrar la aplicación."""
+        try:
+            # Detener el servidor SQLite Web si está en ejecución
+            if hasattr(self, 'sqlite_web_process') and self.sqlite_web_process:
+                try:
+                    logger.info("Cerrando el servidor SQLite Web...")
+                    
+                    # En Windows, usar taskkill para asegurar que se cierren todos los procesos hijos
+                    if os.name == 'nt':
+                        try:
+                            # Obtener el ID del proceso
+                            pid = self.sqlite_web_process.pid
+                            # Usar taskkill para terminar el proceso y sus hijos
+                            subprocess.run(
+                                ['taskkill', '/F', '/T', '/PID', str(pid)],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                creationflags=subprocess.CREATE_NO_WINDOW
+                            )
+                            logger.info(f"Proceso SQLite Web (PID: {pid}) terminado con taskkill")
+                        except Exception as taskkill_err:
+                            logger.error(f"Error al usar taskkill: {taskkill_err}")
+                            # Si falla taskkill, intentar con los métodos estándar
+                            self.sqlite_web_process.terminate()
+                    else:
+                        # Para sistemas que no son Windows
+                        self.sqlite_web_process.terminate()
+                    
+                    # Esperar un tiempo razonable para que el proceso termine (3 segundos)
+                    try:
+                        self.sqlite_web_process.wait(timeout=3)
+                        logger.info("Servidor SQLite Web cerrado correctamente.")
+                    except (subprocess.TimeoutExpired, AttributeError):
+                        # Si no responde, forzar la terminación
+                        logger.warning("El servidor SQLite Web no respondió, forzando cierre...")
+                        try:
+                            self.sqlite_web_process.kill()
+                            self.sqlite_web_process.wait()
+                            logger.info("Servidor SQLite Web forzado a cerrar.")
+                        except Exception as kill_err:
+                            logger.error(f"Error al forzar el cierre: {kill_err}")
+                    except Exception as e:
+                        logger.error(f"Error al esperar que termine el servidor SQLite Web: {e}")
+                except Exception as e:
+                    logger.error(f"Error al detener el servidor SQLite Web: {e}", exc_info=True)
+                finally:
+                    try:
+                        # Asegurarse de que el proceso esté terminado
+                        if self.sqlite_web_process and self.sqlite_web_process.poll() is None:
+                            self.sqlite_web_process.kill()
+                    except:
+                        pass
+                    self.sqlite_web_process = None
+            
+            # Cerrar la ventana principal
+            super().destroy()
+            
+            # Salir de la aplicación
+            self.quit()
+            
+        except Exception as e:
+            logger.error(f"Error al cerrar la aplicación: {e}", exc_info=True)
+            import os
+            os._exit(1)  # Salida forzada en caso de error
+
     def _show_inventory(self):
-        """Muestra el inventario completo de dispositivos."""
-        # Aquí iría la lógica para mostrar el inventario
-        messagebox.showinfo("Inventario", "Visualización de inventario no implementada aún.")
+        """Muestra el inventario completo de dispositivos usando SQLite Web."""
+        try:
+            # Ruta a la base de datos de inventario (en el directorio raíz del proyecto)
+            project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+            db_path = os.path.join(project_root, 'network_inventory.db')
+            db_path = os.path.abspath(db_path)
+            
+            # Verificar si la base de datos existe
+            if not os.path.exists(db_path):
+                error_msg = f"No se encontró la base de datos de inventario en:\n{db_path}"
+                logger.error(error_msg)
+                messagebox.showerror("Error", error_msg)
+                return
+            
+            # Si ya hay un servidor en ejecución, solo abrir el navegador
+            if hasattr(self, 'sqlite_web_process') and self.sqlite_web_process and self.sqlite_web_process.poll() is None:
+                webbrowser.open('http://127.0.0.1:8080')
+                return
+            
+            # Comando para iniciar el servidor SQLite Web usando el paquete instalado
+            # Usamos la ruta completa al ejecutable de Python para asegurar que se use la instalación correcta
+            python_exe = sys.executable
+            cmd = [
+                python_exe,
+                '-m', 'sqlite_web',
+                '--host', '127.0.0.1',  # Usar 127.0.0.1 en lugar de localhost para evitar problemas de resolución DNS
+                '--port', '8080',
+                '--no-browser',  # No abrir automáticamente el navegador
+                '--read-only',    # Modo solo lectura
+                db_path
+            ]
+            
+            # Para depuración - mostrar el comando que se va a ejecutar
+            logger.info(f"Python executable: {python_exe}")
+            logger.info(f"Comando completo: {' '.join(cmd)}")
+            
+            logger.info(f"Iniciando servidor SQLite Web con base de datos: {db_path}")
+            logger.info(f"Comando: {' '.join(cmd)}")
+            
+            # Configurar el comando como una cadena para usar con shell=True
+            cmd_str = ' '.join(f'"{arg}"' if ' ' in arg else arg for arg in cmd)
+            
+            # Configuración específica para Windows
+            startupinfo = None
+            if os.name == 'nt':
+                startupinfo = subprocess.STARTUPINFO()
+                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                startupinfo.wShowWindow = subprocess.SW_HIDE
+            
+            # Iniciar el proceso con shell=True para manejar mejor la consola
+            self.sqlite_web_process = subprocess.Popen(
+                cmd_str,
+                shell=True,
+                cwd=project_root,  # Directorio raíz del proyecto
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.CREATE_NO_WINDOW,
+                startupinfo=startupinfo
+            )
+            
+            # Esperar un momento para que el servidor se inicie
+            time.sleep(2)
+            
+            # Verificar si el proceso sigue en ejecución
+            if self.sqlite_web_process.poll() is not None:
+                # El proceso terminó inesperadamente
+                stdout, stderr = self.sqlite_web_process.communicate()
+                error_details = stderr.decode('utf-8', errors='replace') if stderr else 'Sin detalles'
+                error_msg = f"Error al iniciar el servidor SQLite Web.\nDetalles:\n{error_details}"
+                logger.error(error_msg)
+                messagebox.showerror("Error", error_msg)
+                return
+            
+            # Esperar un poco más para asegurar que el servidor esté listo
+            time.sleep(1)
+            
+            # Abrir el navegador
+            webbrowser.open('http://127.0.0.1:8080')
+            
+            # Mostrar mensaje informativo
+            messagebox.showinfo(
+                "Visor de Inventario",
+                "El visor de inventario se ha abierto en tu navegador.\n\n"
+                "Puedes cerrar esta ventana cuando hayas terminado. El visor se cerrará automáticamente."
+            )
+            
+        except Exception as e:
+            error_msg = f"Error al iniciar el visor de inventario: {str(e)}"
+            logger.error(error_msg, exc_info=True)
+            messagebox.showerror("Error", error_msg)
 
     def _search_device(self):
         """Busca un dispositivo específico en el inventario."""
@@ -1502,8 +1679,8 @@ class NetworkScannerGUI(ttk.Window):
 
     def _show_about(self):
         """Muestra información sobre la aplicación."""
-        from .help_functions import show_about
-        show_about(self)
+        from .help_functions import show_html_content
+        show_html_content(self, "Acerca de", "acerca_de.html")
 
     def _check_updates(self):
         """Verifica si hay actualizaciones disponibles."""
