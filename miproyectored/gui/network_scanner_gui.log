@@ -868,3 +868,28 @@ AttributeError: '_tkinter.tkapp' object has no attribute 'colors'
 2025-06-02 15:53:02,145 - miproyectored.gui.app_gui - INFO - Cerrando la aplicaciÃ³n.
 2025-06-02 15:58:20,799 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
 2025-06-02 15:58:20,994 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:11:34,697 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:11:35,224 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:12:29,515 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:12:29,698 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:12:53,141 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:12:53,346 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:13:34,518 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:13:34,781 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:23:33,660 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:23:33,945 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:24:36,543 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:24:36,851 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:24:43,545 - miproyectored.gui.app_gui - INFO - Cerrando la aplicación.
+2025-06-03 08:28:50,307 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:28:50,602 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:29:13,528 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:29:13,674 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:29:32,127 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:29:32,563 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:35:31,891 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:35:32,108 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:49:58,172 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:49:58,409 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente
+2025-06-03 08:50:43,759 - miproyectored.gui.app_gui - INFO - Rango de red local detectado: 192.168.38.0/24
+2025-06-03 08:50:43,919 - miproyectored.gui.app_gui - INFO - Interfaz gráfica inicializada correctamente

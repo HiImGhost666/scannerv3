@@ -1498,7 +1498,7 @@ class NetworkScannerGUI(ttk.Window):
     def _show_user_manual(self):
         """Muestra el manual de usuario."""
         from .help_functions import show_html_content
-        show_html_content(self, "Manual de Usuario", "user_manual.md")
+        show_html_content(self, "Manual de Usuario", "user_manual.html")
 
     def _show_about(self):
         """Muestra información sobre la aplicación."""

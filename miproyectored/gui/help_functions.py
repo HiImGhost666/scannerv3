@@ -21,10 +21,10 @@ class HTMLViewer(QMainWindow):
         super().__init__(parent, Qt.Window)  # Qt.Window hace que sea una ventana independiente
         self.setWindowTitle(title)
         self.resize(1000, 800)
-        
+
         # Configurar para que no cierre la aplicación al cerrar esta ventana
         self.setAttribute(Qt.WA_DeleteOnClose, False)
-        
+
         # Configurar colores según el brandbook
         self.primary_dark = QColor(9, 31, 44)    # #091F2C
         self.primary_red = QColor(193, 0, 22)    # #C10016
@@ -49,7 +49,7 @@ class HTMLViewer(QMainWindow):
         except Exception as e:
             logger.error(f"Error loading HTML: {e}")
             QMessageBox.critical(self, "Error", f"No se pudo cargar el archivo:\n{e}")
-            
+
     def closeEvent(self, event):
         # Sobrescribir el evento de cierre para evitar que cierre la aplicación
         event.accept()  # Aceptar el cierre de la ventana actual
