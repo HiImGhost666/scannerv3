@@ -1,7 +1,6 @@
 # Requisitos para MiProyectoRed - Herramienta de Escaneo de Red
 # GUI
 ttkbootstrap>=1.0.0
-tkinter
 
 # Escaneo de red
 python-nmap>=0.7.1
@@ -35,3 +34,4 @@ Markdown~=3.8
 pillow~=10.4.0
 scapy~=2.6.1
 PyQt5~=5.15.11
+PyQtWebEngine~=5.15.7
