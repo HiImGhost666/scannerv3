@@ -27,6 +27,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Tuple, Any
 from PIL import Image, ImageTk  # Añadido para manejar imágenes
 
+from miproyectored.model.network_report import NetworkReport
 # Importar módulos del proyecto miproyectored
 from miproyectored.scanner.nmap_scanner import NmapScanner
 from miproyectored.scanner.wmi_scanner import WmiScanner
@@ -48,8 +49,9 @@ logger.propagate = False
 
 # Configurar manejadores solo si no existen ya
 if not logger.handlers:
-    # Configurar manejador de archivo
-    log_file_path = os.path.join(os.path.dirname(__file__), 'network_scanner_gui.log')
+    # Configurar manejador de archivo en la raíz del proyecto
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+    log_file_path = os.path.join(project_root, 'network_scanner_gui.log')
     file_handler = logging.FileHandler(log_file_path, encoding='utf-8')
     file_handler.setLevel(logging.INFO)
     
@@ -101,9 +103,47 @@ class NetworkScannerGUI(ttk.Window):
             # Personalizar el tema con colores corporativos
             self._apply_corporate_colors()
             
+            # Configurar el ícono de la aplicación
+            try:
+                # Ruta al ícono
+                icon_path = os.path.join(os.path.dirname(__file__), 'resources', 'SG - Logotipo IA negro.png')
+                
+                if os.path.exists(icon_path):
+                    # Convertir la imagen a formato compatible con Tkinter
+                    img = Image.open(icon_path)
+                    
+                    # Crear un archivo temporal para el ícono en formato ICO (necesario para Windows)
+                    temp_icon = os.path.join(tempfile.gettempdir(), 'app_icon.ico')
+                    img.save(temp_icon, format='ICO')
+                    
+                    # Configurar el ícono para la ventana principal
+                    self.iconbitmap(default=temp_icon)
+                    
+                    # Configurar el ícono para la barra de tareas (Windows)
+                    if sys.platform.startswith('win'):
+                        import ctypes
+                        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('Láberit.NetworkScanner.1')
+                    
+                    # Guardar referencia para evitar que sea eliminado por el recolector de basura
+                    self._app_icon = temp_icon
+                    
+                    logger.info(f"Ícono de la aplicación cargado desde: {icon_path}")
+                else:
+                    logger.warning(f"No se encontró el archivo de ícono en: {icon_path}")
+            except Exception as e:
+                logger.warning(f"No se pudo cargar el ícono de la aplicación: {e}")
+                logger.exception("Detalles del error:")
+            
             self.title("Herramienta de Escaneo de Red - MiProyectoRed")
-            self.geometry("1300x750") # Aumentado el tamaño para más detalles
+            # Configurar tamaño mínimo y estado inicial de la ventana
             self.minsize(1000, 600)
+            # Maximizar la ventana al iniciar
+            self.state('zoomed')  # Para Windows y macOS
+            # Alternativa para Linux
+            # self.attributes('-zoomed', True)  # Para algunos gestores de ventanas de Linux
+            
+            # Después de crear todos los widgets, actualizar para asegurar que se muestren correctamente
+            self.update_idletasks()
 
             self.nmap_scanner = NmapScanner() # Usar NmapScanner del proyecto
             self.risk_analyzer = RiskAnalyzer() # Usar RiskAnalyzer del proyecto
@@ -1678,9 +1718,9 @@ class NetworkScannerGUI(ttk.Window):
         show_html_content(self, "Manual de Usuario", "user_manual.html")
 
     def _show_about(self):
-        """Muestra información sobre la aplicación."""
-        from .help_functions import show_html_content
-        show_html_content(self, "Acerca de", "acerca_de.html")
+        """Muestra información sobre la aplicación en un diálogo simple."""
+        from .help_functions import show_about_dialog
+        show_about_dialog(self)
 
     def _check_updates(self):
         """Verifica si hay actualizaciones disponibles."""
